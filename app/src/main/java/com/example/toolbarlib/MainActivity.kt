@@ -6,6 +6,7 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import com.example.toolbarlib.custom.TextComponent
 import com.example.toolbarlib.custom.ToolbarEasy
 
 import kotlinx.android.synthetic.main.activity_main.*
@@ -42,13 +43,28 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initToolbar() {
-        toolbar.build()
-                .titleText("Title")
-                .titleTextColor(Color.RED)
-                .subTitleText("subtitle")
-                .subtitleTextColor(Color.YELLOW)
-                .homeButtonId(R.drawable.ic_account_circle_black_24dp)
-                .navigationIconColor(Color.WHITE)
-                .build()
+
+        toolbar.createToolbar {
+            addComponent(TextComponent("Title"))
+            addComponent(TextComponent("Title"))
+            addComponent(TextComponent("Title"))
+            addComponent(TextComponent("Title"))
+            addComponent(TextComponent("Title"))
+            addComponent(TextComponent("Title"))
+            addComponent(TextComponent("Title"))
+            addComponent(TextComponent("Title"))
+            addComponent(TextComponent("Title"))
+            addComponent(TextComponent("Title"))
+            addComponent(TextComponent("Title"))
+        }
+//
+//        toolbar.build()
+//                .titleText("Title")
+//                .titleTextColor(Color.RED)
+//                .subTitleText("subtitle")
+//                .subtitleTextColor(Color.YELLOW)
+//                .homeButtonId(R.drawable.ic_account_circle_black_24dp)
+//                .navigationIconColor(Color.WHITE)
+//                .build()
     }
 }
