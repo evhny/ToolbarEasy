@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
                 MenuComponent(
                     arrayOf("Some item1", "Some item2", "Some item3"),
                     R.drawable.ic_more_vert_black_24dp
-                )
+                ) { menuItem -> onMenuItemClick(menuItem) }
             )
             addComponent(
                 PopupComponent(
@@ -82,5 +82,9 @@ class MainActivity : AppCompatActivity() {
 //                .homeButtonId(R.drawable.ic_account_circle_black_24dp)
 //                .navigationIconColor(Color.WHITE)
 //                .build()
+    }
+
+    private fun onMenuItemClick(item: MenuItem){
+        Snackbar.make(toolbar, "onMenuItemClick "+item.title, Snackbar.LENGTH_LONG).show()
     }
 }
