@@ -6,7 +6,10 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
+import android.widget.SearchView
 import com.example.toolbarlib.custom.MenuComponent
+import com.example.toolbarlib.custom.PopupComponent
 import com.example.toolbarlib.custom.TextComponent
 import com.example.toolbarlib.custom.ToolbarEasy
 
@@ -21,7 +24,7 @@ class MainActivity : AppCompatActivity() {
 
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+                .setAction("Action", null).show()
         }
 
         initToolbar()
@@ -57,7 +60,18 @@ class MainActivity : AppCompatActivity() {
             addComponent(TextComponent("Title"))
             addComponent(TextComponent("Title"))
             addComponent(TextComponent("Title"))
-            addComponent(MenuComponent(arrayOf("item1", "item2", "item3"), R.drawable.ic_more_vert_black_24dp))
+            addComponent(
+                MenuComponent(
+                    arrayOf("Some item1", "Some item2", "Some item3"),
+                    R.drawable.ic_more_vert_black_24dp
+                )
+            )
+            addComponent(
+                PopupComponent(
+                    contentView = SearchView(this@MainActivity),
+                    iconRes = R.drawable.ic_more_vert_black_24dp
+                )
+            )
         }
 //
 //        toolbar.build()
