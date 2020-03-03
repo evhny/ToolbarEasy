@@ -6,6 +6,11 @@ import android.widget.ImageView
 import android.widget.PopupMenu
 import androidx.annotation.DrawableRes
 
+/**
+ * MenuComponent create popup menu that will show after click on menu icon
+ * @param items is a string array with name of item menu
+ * @param iconRes drawable id icon. When click on it, menu will open as popup
+ */
 class MenuComponent(
     private val items: Array<String>,
     @DrawableRes private val iconRes: Int
