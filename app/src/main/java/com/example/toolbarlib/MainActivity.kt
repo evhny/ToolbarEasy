@@ -6,6 +6,7 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import com.example.toolbarlib.custom.MenuComponent
 import com.example.toolbarlib.custom.TextComponent
 import com.example.toolbarlib.custom.ToolbarEasy
 
@@ -56,6 +57,7 @@ class MainActivity : AppCompatActivity() {
             addComponent(TextComponent("Title"))
             addComponent(TextComponent("Title"))
             addComponent(TextComponent("Title"))
+            addComponent(MenuComponent(arrayOf("item1", "item2", "item3"), R.drawable.ic_more_vert_black_24dp))
         }
 //
 //        toolbar.build()
