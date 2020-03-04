@@ -1,13 +1,10 @@
 package com.example.toolbarlib
 
-import android.graphics.Color
 import android.os.Bundle
-import android.view.Gravity
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Button
 import android.widget.SearchView
 import com.example.toolbarlib.custom.*
 import com.example.toolbarlib.custom.property.GravityPosition

@@ -6,12 +6,12 @@ import androidx.appcompat.widget.AppCompatImageView
 
 class ImageComponent(
     private val imageRes: Int,
-    private val onImageClick: () -> Unit
+    private val onImageClick: (() -> Unit?)? = null
 ) : Component() {
 
     override fun getView(context: Context): View {
         val image = AppCompatImageView(context)
-        image.setOnClickListener { onImageClick.invoke() }
+        image.setOnClickListener { onImageClick?.invoke() }
         image.setImageResource(imageRes)
         return image
     }
