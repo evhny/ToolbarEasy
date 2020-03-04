@@ -12,6 +12,8 @@ import com.example.toolbarlib.custom.MenuComponent
 import com.example.toolbarlib.custom.PopupComponent
 import com.example.toolbarlib.custom.TextComponent
 import com.example.toolbarlib.custom.ToolbarEasy
+import com.example.toolbarlib.custom.property.Margin
+import com.example.toolbarlib.custom.property.consts.MarginSet
 
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -51,15 +53,12 @@ class MainActivity : AppCompatActivity() {
         toolbar.createToolbar {
             addComponent(TextComponent("Title"))
             addComponent(TextComponent("Title"))
-            addComponent(TextComponent("Title"))
-            addComponent(TextComponent("Title"))
-            addComponent(TextComponent("Title"))
-            addComponent(TextComponent("Title"))
-            addComponent(TextComponent("Title"))
-            addComponent(TextComponent("Title"))
-            addComponent(TextComponent("Title"))
-            addComponent(TextComponent("Title"))
-            addComponent(TextComponent("Title"))
+            addComponent(TextComponent("Title"),
+                Margin().apply {
+                    marginEnd = MarginSet.EXTRA_BIG
+                    marginStart = MarginSet.EXTRA_BIG
+                })
+
             addComponent(
                 MenuComponent(
                     arrayOf("Some item1", "Some item2", "Some item3"),
@@ -84,7 +83,7 @@ class MainActivity : AppCompatActivity() {
 //                .build()
     }
 
-    private fun onMenuItemClick(item: MenuItem){
-        Snackbar.make(toolbar, "onMenuItemClick "+item.title, Snackbar.LENGTH_LONG).show()
+    private fun onMenuItemClick(item: MenuItem) {
+        Snackbar.make(toolbar, "onMenuItemClick " + item.title, Snackbar.LENGTH_LONG).show()
     }
 }

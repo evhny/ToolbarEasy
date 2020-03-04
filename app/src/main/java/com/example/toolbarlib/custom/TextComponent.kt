@@ -7,7 +7,8 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.example.toolbarlib.R
 
-class TextComponent(private val text: String) : Component {
+class TextComponent(private val text: String) : Component() {
+
     override fun getView(context: Context): View {
         val textView = TextView(context)
         textView.gravity = Gravity.CENTER

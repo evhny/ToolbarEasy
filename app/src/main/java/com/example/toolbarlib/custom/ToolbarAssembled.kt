@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.appcompat.widget.Toolbar
+import com.example.toolbarlib.custom.property.Margin
+import com.example.toolbarlib.custom.property.extensions.convertToPix
 
 class ToolbarAssembled @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -15,6 +17,7 @@ class ToolbarAssembled @JvmOverloads constructor(
         orientation = LinearLayout.HORIZONTAL
         setBackgroundResource(android.R.color.white)
     }
+
     init {
         super.addView(
             container,
@@ -31,11 +34,10 @@ class ToolbarAssembled @JvmOverloads constructor(
         components.forEach {
             container.addView(
                 it.getView(context),
-                LayoutParams(LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT)
+                createLayoutParams(it)
             )
         }
     }
-
 
     fun createToolbar(creatorBlock: Creator.() -> Unit) {
         val creator = Creator()
@@ -43,12 +45,27 @@ class ToolbarAssembled @JvmOverloads constructor(
         collectComponent(creator)
     }
 
+    private fun createLayoutParams(component: Component): ViewGroup.LayoutParams {
+        val params = LayoutParams(LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        params.setMargins(
+            component.convertToPix(component.margin.marginStart, context),
+            component.convertToPix(component.margin.marginTop, context),
+            component.convertToPix(component.margin.marginEnd, context),
+            component.convertToPix(component.margin.marginBottom, context)
+        )
+        return params
+    }
+
     inner class Creator(private val components: MutableList<Component> = mutableListOf()) {
         fun addComponent(component: Component) {
             this.components.add(component)
         }
 
+        fun addComponent(component: Component, margin: Margin) {
+            component.margin = margin
+            this.components.add(component)
+        }
+
         fun getComponents() = components.toList()
     }
-
 }

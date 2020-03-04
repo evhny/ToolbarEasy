@@ -18,7 +18,7 @@ class PopupComponent(
     private val component: Component? = null,
     private val contentView: View? = null,
     @DrawableRes private val iconRes: Int
-) : Component {
+) : Component() {
     override fun getView(context: Context): View {
         val imageView = ImageView(context)
         imageView.setImageResource(iconRes)

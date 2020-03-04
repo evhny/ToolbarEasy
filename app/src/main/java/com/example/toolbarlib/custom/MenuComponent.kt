@@ -17,7 +17,7 @@ class MenuComponent(
     private val items: Array<String>,
     @DrawableRes private val iconRes: Int,
     private val onMenuClick: (menuItem: MenuItem) -> Unit
-) : Component {
+) : Component() {
     override fun getView(context: Context): View {
         val imageView = ImageView(context)
         imageView.setImageResource(iconRes)
