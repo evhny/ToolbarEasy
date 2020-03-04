@@ -2,11 +2,17 @@ package com.example.toolbarlib.custom
 
 import android.content.Context
 import android.view.View
+import androidx.appcompat.widget.AppCompatImageView
 
-class ImageComponent : Component(){
+class ImageComponent(
+    private val imageRes: Int,
+    private val onImageClick: () -> Unit
+) : Component() {
 
     override fun getView(context: Context): View {
-
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val image = AppCompatImageView(context)
+        image.setOnClickListener { onImageClick.invoke() }
+        image.setImageResource(imageRes)
+        return image
     }
 }
