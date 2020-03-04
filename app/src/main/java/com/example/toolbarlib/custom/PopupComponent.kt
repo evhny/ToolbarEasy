@@ -21,6 +21,7 @@ class PopupComponent(
 ) : Component() {
     override fun getView(context: Context): View {
         val imageView = ImageView(context)
+        imageView.layoutParams = createLayoutParams(context)
         imageView.setImageResource(iconRes)
         imageView.setOnClickListener { v: View -> createPopup(context, v) }
         return imageView

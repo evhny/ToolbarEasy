@@ -15,6 +15,8 @@ class TextComponent(
 
     override fun getView(context: Context): View {
         val textView = TextView(context)
+        textView.layoutParams = createLayoutParams(context)
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             textView.setTextAppearance(style)
         } else {

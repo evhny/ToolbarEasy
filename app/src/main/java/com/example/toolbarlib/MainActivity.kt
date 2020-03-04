@@ -1,22 +1,17 @@
 package com.example.toolbarlib
 
-import android.graphics.Color
 import android.os.Bundle
-import android.view.Gravity
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Button
 import android.widget.SearchView
+import androidx.appcompat.app.AppCompatActivity
 import com.example.toolbarlib.custom.MenuComponent
 import com.example.toolbarlib.custom.PopupComponent
 import com.example.toolbarlib.custom.TextComponent
-import com.example.toolbarlib.custom.ToolbarEasy
 import com.example.toolbarlib.custom.property.GravityPosition
 import com.example.toolbarlib.custom.property.Margin
 import com.example.toolbarlib.custom.property.consts.MarginSet
-
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -60,7 +55,6 @@ class MainActivity : AppCompatActivity() {
                     marginEnd = MarginSet.EXTRA_BIG
                     marginStart = MarginSet.EXTRA_BIG
                 })
-
             addComponent(
                 MenuComponent(
                     arrayOf("Some item1", "Some item2", "Some item3"),

@@ -27,4 +27,9 @@
         <item name="android:maxLines">1</item>
     </style>
 
+    <style name="MenuComponent" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:itemBackground">@android:color/holo_orange_dark</item>
+    </style>
+
 </resources>
