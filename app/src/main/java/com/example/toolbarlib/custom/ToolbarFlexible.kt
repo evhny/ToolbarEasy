@@ -42,12 +42,22 @@ class ToolbarFlexible @JvmOverloads constructor(
             if (view.layoutParams != null) {
                 val params = RelativeLayout.LayoutParams(view.layoutParams as MarginLayoutParams)
                 when (it.gravity) {
-                    GravityPosition.LEFT -> params.addRule(RelativeLayout.ALIGN_PARENT_START, RelativeLayout.TRUE)
-                    GravityPosition.RIGHT ->params.addRule(RelativeLayout.ALIGN_PARENT_END, RelativeLayout.TRUE)
-                    GravityPosition.CENTER-> params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE)
+                    GravityPosition.LEFT -> params.addRule(
+                        RelativeLayout.ALIGN_PARENT_START,
+                        RelativeLayout.TRUE
+                    )
+                    GravityPosition.RIGHT -> params.addRule(
+                        RelativeLayout.ALIGN_PARENT_END,
+                        RelativeLayout.TRUE
+                    )
+                    GravityPosition.CENTER -> params.addRule(
+                        RelativeLayout.CENTER_IN_PARENT,
+                        RelativeLayout.TRUE
+                    )
+                    else -> {}
                 }
 
-                if (viewOld != null&&it.gravity==GravityPosition.NONE) {
+                if (viewOld != null && it.gravity == GravityPosition.NONE) {
                     params.addRule(RelativeLayout.RIGHT_OF, viewOld!!.id)
                 }
 
