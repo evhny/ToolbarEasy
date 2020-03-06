@@ -1,15 +1,15 @@
 package com.example.toolbarlib
 
-import android.graphics.Color
 import android.os.Bundle
-import android.view.Gravity
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Button
 import android.widget.SearchView
-import com.example.toolbarlib.custom.*
+import com.example.toolbarlib.custom.component.ImageComponent
+import com.example.toolbarlib.custom.component.MenuComponent
+import com.example.toolbarlib.custom.component.PopupComponent
+import com.example.toolbarlib.custom.component.TextComponent
 import com.example.toolbarlib.custom.property.GravityPosition
 import com.example.toolbarlib.custom.property.Margin
 import com.example.toolbarlib.custom.property.consts.MarginSet
@@ -50,9 +50,10 @@ class MainActivity : AppCompatActivity() {
     private fun initToolbar() {
 
         toolbar.createToolbar {
-            addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp))
-            addComponent(ImageComponent(R.mipmap.ic_launcher))
-            addComponent(TextComponent("Title"),
+            addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp){})
+            addComponent(ImageComponent(R.mipmap.ic_launcher){})
+            addComponent(
+                TextComponent("Title"),
                 Margin().apply {
                     marginEnd = MarginSet.EXTRA_BIG
                     marginStart = MarginSet.EXTRA_BIG

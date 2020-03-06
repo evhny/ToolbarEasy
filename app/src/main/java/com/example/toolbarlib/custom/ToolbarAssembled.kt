@@ -2,21 +2,20 @@ package com.example.toolbarlib.custom
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.appcompat.widget.Toolbar
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
+import com.example.toolbarlib.custom.component.Component
 import com.example.toolbarlib.custom.property.GravityPosition
 import com.example.toolbarlib.custom.property.Margin
-import com.example.toolbarlib.custom.property.extensions.convertToPix
 
 class ToolbarAssembled @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : Toolbar(context, attrs, defStyleAttr) {
 
-    private val container = LinearLayout(context).apply {
-        orientation = LinearLayout.HORIZONTAL
+    private val container = ConstraintLayout(context).apply {
         setBackgroundResource(android.R.color.white)
     }
 
@@ -33,10 +32,40 @@ class ToolbarAssembled @JvmOverloads constructor(
 
     private fun collectComponent(creator: Creator) {
         val components = creator.getComponents()
+        val leftComponent = mutableListOf<Component>()
+        val centerComponent = mutableListOf<Component>()
+        val rightComponent = mutableListOf<Component>()
         components.forEach {
+            when (it.gravity) {
+                GravityPosition.CENTER -> centerComponent.add(it)
+                GravityPosition.LEFT -> leftComponent.add(it)
+                GravityPosition.RIGHT -> rightComponent.add(it)
+            }
+        }
+        components.forEachIndexed { index, component ->
             container.addView(
-                it.getView(context),
-                createLayoutParams(it)
+                component.getView(context)
+            )
+        }
+        centerComponent.forEachIndexed { index, component ->
+            constraintSetCenter(
+                component,
+                centerComponent.getOrNull(index - 1)?.mViewId ?: -1,
+                centerComponent.getOrNull(index + 1)?.mViewId ?: -1
+            )
+        }
+        leftComponent.forEachIndexed { index, component ->
+            constraintSetLeft(
+                component,
+                leftComponent.getOrNull(index - 1)?.mViewId ?: -1,
+                leftComponent.getOrNull(index + 1)?.mViewId ?: -1
+            )
+        }
+        rightComponent.forEachIndexed { index, component ->
+            constraintSetRight(
+                component,
+                rightComponent.getOrNull(index - 1)?.mViewId ?: -1,
+                rightComponent.getOrNull(index + 1)?.mViewId ?: -1
             )
         }
     }
@@ -47,25 +76,80 @@ class ToolbarAssembled @JvmOverloads constructor(
         collectComponent(creator)
     }
 
-    private fun createLayoutParams(component: Component): ViewGroup.LayoutParams {
-        val params = LinearLayout.LayoutParams(
-            LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
+    private fun createConstraintSet(viewId: Int): ConstraintSet {
+        val set = ConstraintSet()
+        set.clone(container)
+        set.connect(
+            viewId,
+            ConstraintSet.TOP,
+            ConstraintSet.PARENT_ID,
+            ConstraintSet.TOP
         )
-        params.setMargins(
-            component.convertToPix(component.margin.marginStart, context),
-            component.convertToPix(component.margin.marginTop, context),
-            component.convertToPix(component.margin.marginEnd, context),
-            component.convertToPix(component.margin.marginBottom, context)
+        set.connect(
+            viewId,
+            ConstraintSet.BOTTOM,
+            ConstraintSet.PARENT_ID,
+            ConstraintSet.BOTTOM
         )
-        params.gravity =
-            when (component.gravity) {
-                GravityPosition.CENTER -> Gravity.CENTER
-                GravityPosition.RIGHT -> Gravity.END
-                else -> Gravity.START
-            }
-        return params
+        return set
     }
+
+    private fun constraintSetCenter(component: Component, previewId: Int, nextId: Int) {
+        val set = createConstraintSet(component.mViewId)
+        set.connect(
+            component.getView(context).id,
+            ConstraintSet.START,
+            if (previewId > 0) previewId else ConstraintSet.PARENT_ID,
+            if (previewId > 0) ConstraintSet.END else ConstraintSet.START
+        )
+        set.connect(
+            component.getView(context).id,
+            ConstraintSet.END,
+            if (nextId > 0) nextId else ConstraintSet.PARENT_ID,
+            if (nextId > 0) ConstraintSet.START else ConstraintSet.END
+        )
+        set.setHorizontalChainStyle(component.getView(context).id, ConstraintSet.CHAIN_PACKED)
+        set.applyTo(container)
+    }
+
+    private fun constraintSetLeft(component: Component, previewId: Int, nextId: Int) {
+        val set = createConstraintSet(component.mViewId)
+        set.connect(
+            component.mViewId,
+            ConstraintSet.START,
+            if (previewId > 0) previewId else ConstraintSet.PARENT_ID,
+            if (previewId > 0) ConstraintSet.END else ConstraintSet.START
+        )
+        if (nextId > 0)
+            set.connect(
+                component.getView(context).id,
+                ConstraintSet.END,
+                nextId,
+                ConstraintSet.START
+            )
+        set.setHorizontalChainStyle(component.mViewId, ConstraintSet.CHAIN_PACKED)
+        set.applyTo(container)
+    }
+
+    private fun constraintSetRight(component: Component, previewId: Int, nextId: Int) {
+        val set = createConstraintSet(component.mViewId)
+        set.connect(
+            component.mViewId,
+            ConstraintSet.END,
+            if (previewId > 0) previewId else ConstraintSet.PARENT_ID,
+            if (previewId > 0) ConstraintSet.END else ConstraintSet.START
+         )
+        if (nextId > 0)
+            set.connect(
+                component.getView(context).id,
+                ConstraintSet.END,
+                nextId,
+                ConstraintSet.START
+            )
+        set.setHorizontalChainStyle(component.mViewId, ConstraintSet.CHAIN_PACKED)
+        set.applyTo(container)
+    }
+
 
     inner class Creator(private val components: MutableList<Component> = mutableListOf()) {
         fun addComponent(component: Component) {

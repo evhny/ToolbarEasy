@@ -1,4 +1,4 @@
-package com.example.toolbarlib.custom
+package com.example.toolbarlib.custom.component
 
 import android.content.Context
 import android.view.View
@@ -11,5 +11,13 @@ abstract class Component {
 
     var margin: Margin = Margin()
 
+    protected var mView: View? = null
+
+    var mViewId = -1
+        get() {
+            return mView?.id ?: -1
+        }
+
     abstract fun getView(context: Context): View
+
 }

@@ -1,4 +1,4 @@
-package com.example.toolbarlib.custom
+package com.example.toolbarlib.custom.component
 
 import android.content.Context
 import android.os.Build
@@ -13,8 +13,11 @@ class TextComponent(
     private val onTextClick: (() -> Unit)? = null
 ) : Component() {
 
+
     override fun getView(context: Context): View {
+        if(mView != null) return mView!!
         val textView = TextView(context)
+        textView.id = View.generateViewId()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             textView.setTextAppearance(style)
         } else {
@@ -25,6 +28,7 @@ class TextComponent(
         textView.setOnClickListener {
             onTextClick?.invoke()
         }
+        mView = textView
         return textView
     }
 }
