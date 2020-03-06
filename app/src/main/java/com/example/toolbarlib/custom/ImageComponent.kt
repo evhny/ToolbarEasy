@@ -11,6 +11,7 @@ class ImageComponent(
 
     override fun getView(context: Context): View {
         val image = AppCompatImageView(context)
+        image.layoutParams = createLayoutParams(context)
         image.setOnClickListener { onImageClick?.invoke() }
         image.setImageResource(imageRes)
         return image
