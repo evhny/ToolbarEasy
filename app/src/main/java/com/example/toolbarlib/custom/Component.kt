@@ -11,7 +11,7 @@ import com.example.toolbarlib.custom.property.extensions.convertToPix
 
 abstract class Component {
 
-    var gravity: GravityPosition = GravityPosition.CENTER
+    var gravity: GravityPosition = GravityPosition.NONE
 
     var margin: Margin = Margin()
 

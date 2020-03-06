@@ -2,11 +2,14 @@ package com.example.toolbarlib.custom
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.marginLeft
+import androidx.core.view.marginStart
 import com.example.toolbarlib.custom.property.GravityPosition
 import com.example.toolbarlib.custom.property.Margin
 
@@ -37,13 +40,20 @@ class ToolbarFlexible @JvmOverloads constructor(
             val view = it.getView(context)
             view.id = index + 1
             if (view.layoutParams != null) {
-                val params = RelativeLayout.LayoutParams(view.layoutParams)
-                if (viewOld != null) {
-                    params.addRule(RelativeLayout.RIGHT_OF, viewOld!!.id)
-                   // (viewOld!!.layoutParams as RelativeLayout.LayoutParams).addRule(RelativeLayout.START_OF, view.id)
+                val params = RelativeLayout.LayoutParams(view.layoutParams as MarginLayoutParams)
+                when (it.gravity) {
+                    GravityPosition.LEFT -> params.addRule(RelativeLayout.ALIGN_PARENT_START, RelativeLayout.TRUE)
+                    GravityPosition.RIGHT ->params.addRule(RelativeLayout.ALIGN_PARENT_END, RelativeLayout.TRUE)
+                    GravityPosition.CENTER-> params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE)
                 }
-                viewOld = view
+
+                if (viewOld != null&&it.gravity==GravityPosition.NONE) {
+                    params.addRule(RelativeLayout.RIGHT_OF, viewOld!!.id)
+                }
+
                 view.layoutParams = params
+                viewOld = view
+
             }
             container.addView(view)
         }
