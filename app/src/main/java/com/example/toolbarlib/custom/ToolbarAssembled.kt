@@ -10,6 +10,7 @@ import androidx.constraintlayout.widget.ConstraintSet
 import com.example.toolbarlib.custom.component.Component
 import com.example.toolbarlib.custom.property.GravityPosition
 import com.example.toolbarlib.custom.property.Margin
+import com.example.toolbarlib.custom.property.extensions.convertToPix
 
 class ToolbarAssembled @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -42,7 +43,8 @@ class ToolbarAssembled @JvmOverloads constructor(
         }
         components.forEachIndexed { index, component ->
             container.addView(
-                component.getView(context)
+                component.getView(context),
+                ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, 0)
             )
         }
         centerComponent.forEachIndexed { index, component ->
@@ -73,26 +75,40 @@ class ToolbarAssembled @JvmOverloads constructor(
         collectComponent(creator)
     }
 
-    private fun createConstraintSet(viewId: Int): ConstraintSet {
+    private fun createConstraintSet(component: Component): ConstraintSet {
+        val viewId = component.mViewId
         val set = ConstraintSet()
         set.clone(container)
+        set.constrainDefaultHeight(viewId, ConstraintSet.MATCH_CONSTRAINT_SPREAD)
         set.connect(
             viewId,
             ConstraintSet.TOP,
             ConstraintSet.PARENT_ID,
-            ConstraintSet.TOP
+            ConstraintSet.TOP,
+            component.convertToPix(component.margin.marginTop, context)
         )
         set.connect(
             viewId,
             ConstraintSet.BOTTOM,
             ConstraintSet.PARENT_ID,
-            ConstraintSet.BOTTOM
+            ConstraintSet.BOTTOM,
+            component.convertToPix(component.margin.marginBottom, context)
+        )
+        set.setMargin(
+            viewId,
+            ConstraintSet.START,
+            component.convertToPix(component.margin.marginStart, context)
+        )
+        set.setMargin(
+            viewId,
+            ConstraintSet.END,
+            component.convertToPix(component.margin.marginEnd, context)
         )
         return set
     }
 
     private fun constraintSetCenter(component: Component, previewId: Int, nextId: Int) {
-        val set = createConstraintSet(component.mViewId)
+        val set = createConstraintSet(component)
         set.connect(
             component.getView(context).id,
             ConstraintSet.START,
@@ -110,7 +126,7 @@ class ToolbarAssembled @JvmOverloads constructor(
     }
 
     private fun constraintSetLeft(component: Component, previewId: Int, nextId: Int) {
-        val set = createConstraintSet(component.mViewId)
+        val set = createConstraintSet(component)
         set.connect(
             component.mViewId,
             ConstraintSet.START,
@@ -124,25 +140,17 @@ class ToolbarAssembled @JvmOverloads constructor(
                 nextId,
                 ConstraintSet.START
             )
-        set.setHorizontalChainStyle(component.mViewId, ConstraintSet.CHAIN_PACKED)
         set.applyTo(container)
     }
 
     private fun constraintSetRight(component: Component, previewId: Int) {
-        val set = createConstraintSet(component.mViewId)
+        val set = createConstraintSet(component)
         set.connect(
             component.mViewId,
             ConstraintSet.END,
             if (previewId > 0) previewId else ConstraintSet.PARENT_ID,
             if (previewId > 0) ConstraintSet.START else ConstraintSet.END
-         )
-//        if (previewId > 0)
-//            set.connect(
-//                component.getView(context).id,
-//                ConstraintSet.START,
-//                previewId,
-//                ConstraintSet.END
-//            )
+        )
         set.applyTo(container)
     }
 

@@ -2,6 +2,7 @@ package com.example.toolbarlib.custom.component
 
 import android.content.Context
 import android.os.Build
+import android.view.Gravity
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.StyleRes
@@ -24,6 +25,7 @@ class TextComponent(
             @Suppress("DEPRECATION")
             textView.setTextAppearance(context, style)
         }
+        textView.gravity = Gravity.CENTER
         textView.text = text
         textView.setOnClickListener {
             onTextClick?.invoke()

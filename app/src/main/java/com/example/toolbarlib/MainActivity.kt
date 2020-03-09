@@ -1,11 +1,10 @@
 package com.example.toolbarlib
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.SearchView
+import androidx.appcompat.app.AppCompatActivity
 import com.example.toolbarlib.custom.component.ImageComponent
 import com.example.toolbarlib.custom.component.MenuComponent
 import com.example.toolbarlib.custom.component.PopupComponent
@@ -13,7 +12,7 @@ import com.example.toolbarlib.custom.component.TextComponent
 import com.example.toolbarlib.custom.property.GravityPosition
 import com.example.toolbarlib.custom.property.Margin
 import com.example.toolbarlib.custom.property.consts.MarginSet
-
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -50,14 +49,17 @@ class MainActivity : AppCompatActivity() {
     private fun initToolbar() {
 
         toolbar.createToolbar {
-            addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp){}, GravityPosition.RIGHT)
-            addComponent(ImageComponent(R.mipmap.ic_launcher){}, GravityPosition.LEFT)
             addComponent(
-                TextComponent("Title"),
+                ImageComponent(R.drawable.ic_account_circle_black_24dp) {},
+                GravityPosition.RIGHT
+            )
+            addComponent(ImageComponent(R.mipmap.ic_launcher) {},
                 Margin().apply {
-                    marginEnd = MarginSet.EXTRA_BIG
-                    marginStart = MarginSet.EXTRA_BIG
-                })
+                    marginBottom = MarginSet.SMALL
+                    marginTop = MarginSet.SMALL
+                }, GravityPosition.LEFT
+            )
+            addComponent(TextComponent("Title"))
 
             addComponent(
                 MenuComponent(
@@ -71,6 +73,7 @@ class MainActivity : AppCompatActivity() {
                     iconRes = R.drawable.ic_more_vert_black_24dp
                 ), GravityPosition.RIGHT
             )
+            addComponent(TextComponent("текст") {}, GravityPosition.LEFT)
         }
 
     }
