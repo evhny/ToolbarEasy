@@ -15,9 +15,7 @@ class ToolbarAssembled @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : Toolbar(context, attrs, defStyleAttr) {
 
-    private val container = ConstraintLayout(context).apply {
-        setBackgroundResource(android.R.color.white)
-    }
+    private val container = ConstraintLayout(context)
 
     init {
         super.addView(
@@ -64,8 +62,7 @@ class ToolbarAssembled @JvmOverloads constructor(
         rightComponent.forEachIndexed { index, component ->
             constraintSetRight(
                 component,
-                rightComponent.getOrNull(index - 1)?.mViewId ?: -1,
-                rightComponent.getOrNull(index + 1)?.mViewId ?: -1
+                rightComponent.getOrNull(index - 1)?.mViewId ?: -1
             )
         }
     }
@@ -131,22 +128,21 @@ class ToolbarAssembled @JvmOverloads constructor(
         set.applyTo(container)
     }
 
-    private fun constraintSetRight(component: Component, previewId: Int, nextId: Int) {
+    private fun constraintSetRight(component: Component, previewId: Int) {
         val set = createConstraintSet(component.mViewId)
         set.connect(
             component.mViewId,
             ConstraintSet.END,
             if (previewId > 0) previewId else ConstraintSet.PARENT_ID,
-            if (previewId > 0) ConstraintSet.END else ConstraintSet.START
+            if (previewId > 0) ConstraintSet.START else ConstraintSet.END
          )
-        if (nextId > 0)
-            set.connect(
-                component.getView(context).id,
-                ConstraintSet.END,
-                nextId,
-                ConstraintSet.START
-            )
-        set.setHorizontalChainStyle(component.mViewId, ConstraintSet.CHAIN_PACKED)
+//        if (previewId > 0)
+//            set.connect(
+//                component.getView(context).id,
+//                ConstraintSet.START,
+//                previewId,
+//                ConstraintSet.END
+//            )
         set.applyTo(container)
     }
 

@@ -50,8 +50,8 @@ class MainActivity : AppCompatActivity() {
     private fun initToolbar() {
 
         toolbar.createToolbar {
-            addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp){})
-            addComponent(ImageComponent(R.mipmap.ic_launcher){})
+            addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp){}, GravityPosition.RIGHT)
+            addComponent(ImageComponent(R.mipmap.ic_launcher){}, GravityPosition.LEFT)
             addComponent(
                 TextComponent("Title"),
                 Margin().apply {
@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
                 MenuComponent(
                     arrayOf("Some item1", "Some item2", "Some item3"),
                     R.drawable.ic_more_vert_black_24dp
-                ) { menuItem -> onMenuItemClick(menuItem) }
+                ) { menuItem -> onMenuItemClick(menuItem) }, GravityPosition.RIGHT
             )
             addComponent(
                 PopupComponent(
@@ -72,15 +72,7 @@ class MainActivity : AppCompatActivity() {
                 ), GravityPosition.RIGHT
             )
         }
-//
-//        toolbar.build()
-//                .titleText("Title")
-//                .titleTextColor(Color.RED)
-//                .subTitleText("subtitle")
-//                .subtitleTextColor(Color.YELLOW)
-//                .homeButtonId(R.drawable.ic_account_circle_black_24dp)
-//                .navigationIconColor(Color.WHITE)
-//                .build()
+
     }
 
     private fun onMenuItemClick(item: MenuItem) {
