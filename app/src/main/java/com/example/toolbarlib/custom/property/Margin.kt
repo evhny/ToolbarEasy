@@ -10,19 +10,19 @@ import com.example.toolbarlib.custom.property.consts.MarginSet
  * You must set value as dip
  */
 class Margin() {
-    var marginTop: Float = MarginSet.SMALL
+    var marginTop: Float = MarginSet.EXTRA_SMALL
        /* set(value) {
             field = convertToPix(value)
         }*/
-    var marginEnd: Float = MarginSet.SMALL
+    var marginEnd: Float = MarginSet.EXTRA_SMALL
         /*set(value) {
             field = convertToPix(value)
         }*/
-    var marginBottom: Float = MarginSet.SMALL
+    var marginBottom: Float = MarginSet.EXTRA_SMALL
        /* set(value) {
             field = convertToPix(value)
         }*/
-    var marginStart: Float = MarginSet.SMALL
+    var marginStart: Float = MarginSet.EXTRA_SMALL
         /*set(value) {
             field = convertToPix(value)
         }*/

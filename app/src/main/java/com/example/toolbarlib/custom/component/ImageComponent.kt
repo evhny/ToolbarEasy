@@ -15,6 +15,7 @@ class ImageComponent(
         val image = AppCompatImageView(context)
         mView = image
         image.id = View.generateViewId()
+        image.adjustViewBounds = true
         image.setOnClickListener { onImageClick.invoke() }
         image.setImageResource(imageRes)
         return image

@@ -9,7 +9,7 @@ import androidx.annotation.StyleRes
 import com.example.toolbarlib.R
 
 class TextComponent(
-    private val text: String,
+    val text: String,
     @StyleRes private val style: Int = R.style.TextComponent,
     private val onTextClick: (() -> Unit)? = null
 ) : Component() {

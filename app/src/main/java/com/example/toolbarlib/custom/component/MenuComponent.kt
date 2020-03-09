@@ -14,7 +14,7 @@ import androidx.annotation.DrawableRes
  * @param onMenuClick Listener when menu item click
  */
 class MenuComponent(
-    private val items: Array<String>,
+    val items: Array<String>,
     @DrawableRes private val iconRes: Int,
     private val onMenuClick: (menuItem: MenuItem) -> Unit
 ) : Component() {
