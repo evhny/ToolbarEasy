@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.SearchView
 import com.example.toolbarlib.custom.*
+import com.example.toolbarlib.custom.component.BadgeComponent
 import com.example.toolbarlib.custom.property.GravityPosition
 import com.example.toolbarlib.custom.property.Margin
 import com.example.toolbarlib.custom.property.consts.MarginSet
@@ -67,6 +68,7 @@ class MainActivity : AppCompatActivity() {
                     iconRes = R.drawable.ic_more_vert_black_24dp
                 ), GravityPosition.RIGHT
             )
+            addComponent(BadgeComponent({}))
         }
 //
 //        toolbar.build()
