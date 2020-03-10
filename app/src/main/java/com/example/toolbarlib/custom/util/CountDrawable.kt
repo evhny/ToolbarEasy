@@ -3,9 +3,8 @@ package com.example.toolbarlib.custom.util
 import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.Drawable
-import androidx.core.content.ContextCompat
 
-class CountDrawable(context: Context) : Drawable() {
+class CountDrawable(val textSize: Float) : Drawable() {
 
     private val mBadgePaint: Paint
     private val mTextPaint: Paint
@@ -15,18 +14,16 @@ class CountDrawable(context: Context) : Drawable() {
     private var mWillDraw: Boolean = false
 
     init {
-        val mTextSize = 20f// context.resources.getDimension(R.dimen.badge_count_text_size)
-
         mBadgePaint = Paint()
         mBadgePaint.color = Color.YELLOW
-            //ContextCompat.getColor(context.applicationContext, R.color.badge_background)
         mBadgePaint.isAntiAlias = true
         mBadgePaint.style = Paint.Style.FILL
 
         mTextPaint = Paint()
-        mTextPaint.color =  Color.RED//ContextCompat.getColor(context.applicationContext, R.color.colorPrimary)
+        mTextPaint.color =
+            Color.RED//ContextCompat.getColor(context.applicationContext, R.color.colorPrimary)
         mTextPaint.typeface = Typeface.DEFAULT
-        mTextPaint.textSize = mTextSize
+        mTextPaint.textSize = textSize
         mTextPaint.isAntiAlias = true
         mTextPaint.textAlign = Paint.Align.CENTER
     }
@@ -40,27 +37,27 @@ class CountDrawable(context: Context) : Drawable() {
         val width = (bounds.right - bounds.left).toFloat()
         val height = (bounds.bottom - bounds.top).toFloat()
 
-        // Position the badge in the top-right quadrant of the icon.
-        // Using Math.max rather than Math.min //
-
-        val radius = Math.max(width, height) / 2 / 2
-        var posX = width * 0.1f
-        val posiY = height - radius
+        val radius = Math.max(width, height) / 2
+        var posX = width / 2
+        val posiY = height / 2
         if (mCount.length <= 2) {
             // Draw badge circle.
-            canvas.drawCircle(posX, posiY, (radius + radius * 0.5).toInt().toFloat(), mBadgePaint)
+            canvas.drawCircle(posX, posiY, (radius).toInt().toFloat(), mBadgePaint)
         } else {
-            canvas.drawCircle(posX, posiY, (radius + radius * 0.6).toInt().toFloat(), mBadgePaint)
+            canvas.drawCircle(posX, posiY, (radius).toInt().toFloat(), mBadgePaint)
         }
         // Draw badge count text inside the circle.
         mTextPaint.getTextBounds(mCount, 0, mCount.length, mTxtRect)
 
-        val textY = height - height * 0.1f
-        posX = width * 0.08f
-        if (mCount.length > 2)
+        var textY = (height - (height - textSize) / 2) * 0.9f
+        posX = width * 0.5f
+        if (mCount.length > 2) {
+            mTextPaint.textSize = textSize * 0.6f
+            textY = (height - (height - mTextPaint.textSize) / 2) * 0.9f
             canvas.drawText("99+", posX, textY, mTextPaint)
-        else
+        } else {
             canvas.drawText(mCount, posX, textY, mTextPaint)
+        }
     }
 
     //Sets the count (i.e notifications) to display.

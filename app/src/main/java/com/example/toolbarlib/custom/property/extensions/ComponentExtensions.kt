@@ -13,3 +13,12 @@ fun Component.convertToPix(dip: Float, context: Context): Int {
         r.displayMetrics
     ).toInt()
 }
+
+fun Component.convertSpToPix(sp: Float, context: Context): Int {
+    val r: Resources = context.resources
+    return TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_SP,
+        sp,
+        r.displayMetrics
+    ).toInt()
+}

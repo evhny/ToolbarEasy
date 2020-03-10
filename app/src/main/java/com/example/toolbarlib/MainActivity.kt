@@ -68,7 +68,13 @@ class MainActivity : AppCompatActivity() {
                     iconRes = R.drawable.ic_more_vert_black_24dp
                 ), GravityPosition.RIGHT
             )
-            addComponent(BadgeComponent({}))
+            addComponent(
+                BadgeComponent(
+                    component = ImageComponent(R.mipmap.ic_launcher),
+                    onClick = {},
+                    position = BadgeComponent.Position.BOTTOM_RIGHT,
+                    badgeSize = 16f)
+            )
         }
 //
 //        toolbar.build()
