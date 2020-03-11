@@ -1,32 +1,36 @@
-package com.example.toolbarlib.custom
+package com.example.toolbarlib.custom.component
 
 import android.content.Context
 import android.os.Build
+import android.view.Gravity
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.StyleRes
 import com.example.toolbarlib.R
 
 class TextComponent(
-    private val text: String,
+    val text: String,
     @StyleRes private val style: Int = R.style.TextComponent,
-    private val onTextClick: (() -> Unit)? = null
-) : Component() {
+    onTextClick: (() -> Unit)? = null
+) : Component(onTextClick) {
+
 
     override fun getView(context: Context): View {
+        if(mView != null) return mView!!
         val textView = TextView(context)
-        textView.layoutParams = createLayoutParams(context)
-
+        textView.id = View.generateViewId()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             textView.setTextAppearance(style)
         } else {
             @Suppress("DEPRECATION")
             textView.setTextAppearance(context, style)
         }
+        textView.gravity = Gravity.CENTER
         textView.text = text
         textView.setOnClickListener {
-            onTextClick?.invoke()
+            callback?.invoke()
         }
+        mView = textView
         return textView
     }
 }

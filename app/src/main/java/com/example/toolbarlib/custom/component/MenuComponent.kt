@@ -1,4 +1,4 @@
-package com.example.toolbarlib.custom
+package com.example.toolbarlib.custom.component
 
 import android.content.Context
 import android.view.ContextThemeWrapper
@@ -19,14 +19,16 @@ import com.example.toolbarlib.R
  * @param onMenuClick Listener when menu item click
  */
 class MenuComponent(
-    private val items: Array<String>,
+    val items: Array<String>,
     @DrawableRes private val iconRes: Int,
     @StyleRes private val style: Int = R.style.MenuComponent,
     private val onMenuClick: (menuItem: MenuItem) -> Unit
 ) : Component() {
     override fun getView(context: Context): View {
+        if(mView != null) return mView!!
         val imageView = ImageView(context)
-        imageView.layoutParams = createLayoutParams(context)
+        imageView.id = View.generateViewId()
+        mView = imageView
         imageView.setImageResource(iconRes)
         imageView.setOnClickListener { v: View -> createPopup(context, v) }
         return imageView

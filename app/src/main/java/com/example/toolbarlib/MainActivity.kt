@@ -1,18 +1,17 @@
 package com.example.toolbarlib
 
-import android.graphics.Color
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.SearchView
-import com.example.toolbarlib.custom.*
-import com.example.toolbarlib.custom.component.BadgeComponent
+import androidx.appcompat.app.AppCompatActivity
+import com.example.toolbarlib.custom.component.*
+import com.example.toolbarlib.custom.component.menu.MenuAdapter
+import com.example.toolbarlib.custom.component.menu.RemasteredMenuComponent
 import com.example.toolbarlib.custom.property.GravityPosition
 import com.example.toolbarlib.custom.property.Margin
 import com.example.toolbarlib.custom.property.consts.MarginSet
-
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -49,47 +48,21 @@ class MainActivity : AppCompatActivity() {
     private fun initToolbar() {
 
         toolbar.createToolbar {
-            addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp))
-            addComponent(ImageComponent(R.mipmap.ic_launcher))
-            addComponent(TextComponent("Title"),
-                Margin().apply {
-                    marginEnd = MarginSet.EXTRA_BIG
-                    marginStart = MarginSet.EXTRA_BIG
-                })
-
             addComponent(
-                MenuComponent(
-                    arrayOf("Some item1", "Some item2", "Some item3"),
-                    R.drawable.ic_more_vert_black_24dp
-                ) { menuItem -> onMenuItemClick(menuItem) }
-            )
-            addComponent(
-                PopupComponent(
-                    contentView = SearchView(this@MainActivity),
-                    iconRes = R.drawable.ic_more_vert_black_24dp
-                ), GravityPosition.RIGHT
-            )
-            addComponent(
-                BadgeComponent(
-                    component = ImageComponent(R.mipmap.ic_launcher),
-                    onClick = {},
-                    position = BadgeComponent.Position.BOTTOM_RIGHT,
-                    badgeSize = 18f,
-                    count = 87,
-                    badgeColor = Color.RED,
-                    badgeTextColor = Color.WHITE,
-                    badgeTextSize = 12f)
-            )
+                RemasteredMenuComponent(
+                    R.drawable.ic_more_vert_black_24dp,
+                    {
+                        add(TextComponent("Какойтотекс"))
+                        add(ImageComponent(R.drawable.ic_account_circle_black_24dp))
+                        add("Some item1", "Some item2", "Some item3")
+                    },
+                    {
+                        //Обработка всех у кого нет Callback-а
+                    }
+                )
+            , GravityPosition.RIGHT)
         }
-//
-//        toolbar.build()
-//                .titleText("Title")
-//                .titleTextColor(Color.RED)
-//                .subTitleText("subtitle")
-//                .subtitleTextColor(Color.YELLOW)
-//                .homeButtonId(R.drawable.ic_account_circle_black_24dp)
-//                .navigationIconColor(Color.WHITE)
-//                .build()
+
     }
 
     private fun onMenuItemClick(item: MenuItem) {

@@ -1,4 +1,4 @@
-package com.example.toolbarlib.custom
+package com.example.toolbarlib.custom.component
 
 import android.content.Context
 import android.graphics.Color
@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.PopupWindow
 import androidx.annotation.DrawableRes
+import com.example.toolbarlib.custom.component.Component
 
 /**
  * PopupComponent create popup menu that will show after click on icon
@@ -20,8 +21,10 @@ class PopupComponent(
     @DrawableRes private val iconRes: Int
 ) : Component() {
     override fun getView(context: Context): View {
+        if(mView != null) return mView!!
         val imageView = ImageView(context)
-        imageView.layoutParams = createLayoutParams(context)
+        imageView.id = View.generateViewId()
+        mView = imageView
         imageView.setImageResource(iconRes)
         imageView.setOnClickListener { v: View -> createPopup(context, v) }
         return imageView
