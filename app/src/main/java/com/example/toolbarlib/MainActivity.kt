@@ -62,7 +62,6 @@ class MainActivity : AppCompatActivity() {
                     }
                 )
             , GravityPosition.RIGHT)
-
             addComponent(
                 BadgeComponent(
                     component = ImageComponent(R.mipmap.ic_launcher),
