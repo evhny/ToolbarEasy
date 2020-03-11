@@ -1,6 +1,5 @@
 package com.example.toolbarlib.custom.util
 
-import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.Drawable
 
@@ -20,8 +19,7 @@ class CountDrawable(val textSize: Float) : Drawable() {
         mBadgePaint.style = Paint.Style.FILL
 
         mTextPaint = Paint()
-        mTextPaint.color =
-            Color.RED//ContextCompat.getColor(context.applicationContext, R.color.colorPrimary)
+        mTextPaint.color = Color.RED
         mTextPaint.typeface = Typeface.DEFAULT
         mTextPaint.textSize = textSize
         mTextPaint.isAntiAlias = true
@@ -50,7 +48,7 @@ class CountDrawable(val textSize: Float) : Drawable() {
         mTextPaint.getTextBounds(mCount, 0, mCount.length, mTxtRect)
 
         var textY = (height - (height - textSize) / 2) * 0.9f
-        posX = width * 0.5f
+        posX = width * 0.53f
         if (mCount.length > 2) {
             mTextPaint.textSize = textSize * 0.6f
             textY = (height - (height - mTextPaint.textSize) / 2) * 0.9f
@@ -68,6 +66,15 @@ class CountDrawable(val textSize: Float) : Drawable() {
         mWillDraw = !count.equals("0", ignoreCase = true)
         invalidateSelf()
     }
+
+    fun setTextColor(intTextColor: Int) {
+        mTextPaint.color = intTextColor
+    }
+
+    fun setBadgeColor(intColor: Int) {
+        mBadgePaint.color = intColor
+    }
+
 
     override fun setAlpha(alpha: Int) {
         // do nothing

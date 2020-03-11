@@ -1,5 +1,6 @@
 package com.example.toolbarlib
 
+import android.graphics.Color
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
@@ -73,7 +74,11 @@ class MainActivity : AppCompatActivity() {
                     component = ImageComponent(R.mipmap.ic_launcher),
                     onClick = {},
                     position = BadgeComponent.Position.BOTTOM_RIGHT,
-                    badgeSize = 16f)
+                    badgeSize = 16f,
+                    count = 87,
+                    badgeColor = Color.RED,
+                    badgeTextColor = Color.BLUE,
+                    badgeTextSize = 12f)
             )
         }
 //

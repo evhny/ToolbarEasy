@@ -16,7 +16,10 @@ import com.example.toolbarlib.custom.util.CountDrawable
 class BadgeComponent(
     private val component: Component,
     private val badgeTextSize: Float = 10f,
+    private val badgeTextColor: Int = Color.WHITE,
     private val badgeSize: Float = 10f,
+    private val badgeColor: Int = Color.BLACK,
+    private val count: Int = 0,
     private val position: Position = Position.BOTTOM_LEFT,
     private val onClick: () -> Unit
 ) : Component() {
@@ -45,7 +48,9 @@ class BadgeComponent(
         layoutParams.gravity = getGravityByPosition()
 
         val badge = CountDrawable(convertSpToPix(badgeTextSize, context).toFloat())
-        badge.setCount("88")
+        badge.setTextColor(badgeTextColor)
+        badge.setBadgeColor(badgeColor)
+        badge.setCount(count.toString())
         imageBadge.setImageDrawable(badge)
 
         container.addView(imageBadge, layoutParams)
