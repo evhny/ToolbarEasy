@@ -5,10 +5,9 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.toolbarlib.custom.component.ImageComponent
-import com.example.toolbarlib.custom.component.MenuComponent
-import com.example.toolbarlib.custom.component.PopupComponent
-import com.example.toolbarlib.custom.component.TextComponent
+import com.example.toolbarlib.custom.component.*
+import com.example.toolbarlib.custom.component.menu.MenuAdapter
+import com.example.toolbarlib.custom.component.menu.RemasteredMenuComponent
 import com.example.toolbarlib.custom.property.GravityPosition
 import com.example.toolbarlib.custom.property.Margin
 import com.example.toolbarlib.custom.property.consts.MarginSet
@@ -50,30 +49,18 @@ class MainActivity : AppCompatActivity() {
 
         toolbar.createToolbar {
             addComponent(
-                ImageComponent(R.drawable.ic_account_circle_black_24dp) {},
-                GravityPosition.RIGHT
-            )
-            addComponent(ImageComponent(R.mipmap.ic_launcher) {},
-                Margin().apply {
-                    marginBottom = MarginSet.SMALL
-                    marginTop = MarginSet.SMALL
-                }, GravityPosition.LEFT
-            )
-            addComponent(TextComponent("Title"))
-
-            addComponent(
-                MenuComponent(
-                    arrayOf("Some item1", "Some item2", "Some item3"),
-                    R.drawable.ic_more_vert_black_24dp
-                ) { menuItem -> onMenuItemClick(menuItem) }, GravityPosition.RIGHT
-            )
-            addComponent(
-                PopupComponent(
-                    contentView = SearchView(this@MainActivity),
-                    iconRes = R.drawable.ic_more_vert_black_24dp
-                ), GravityPosition.RIGHT
-            )
-            addComponent(TextComponent("текст") {}, GravityPosition.LEFT)
+                RemasteredMenuComponent(
+                    R.drawable.ic_more_vert_black_24dp,
+                    {
+                        add(TextComponent("Какойтотекс"))
+                        add(ImageComponent(R.drawable.ic_account_circle_black_24dp))
+                        add("Some item1", "Some item2", "Some item3")
+                    },
+                    {
+                        //Обработка всех у кого нет Callback-а
+                    }
+                )
+            , GravityPosition.RIGHT)
         }
 
     }

@@ -44,10 +44,7 @@ class ToolbarAssembled @JvmOverloads constructor(
         if(measuredHeight > 0 && container.isEmpty()){
             creator?.let { collectComponent(it) }
         }
-        f(0,",", creator, container, context)
     }
-
-    fun f(vararg arg: Any?){}
 
     fun createToolbar(creatorBlock: Creator.() -> Unit) {
         creator = Creator()
@@ -140,13 +137,10 @@ class ToolbarAssembled @JvmOverloads constructor(
                 "Calculate",
                 "freeSpace: $freeSpaceParties"
             )
+        } else {
+            newLeftComponent.addAll(leftComponent)
+            newRightComponent.addAll(rightComponent)
         }
-
-        Log.d(
-            "Calculate",
-            "displayWidth: $displayWidth centerWidth: ${centerWidth.second.size} ${centerWidth.first} rightWidth: ${rightResultSum.second.size} ${rightResultSum.first} leftWidth: ${leftWidth.second.size} ${leftWidth.first}"
-        )
-
         return Triple(newLeftComponent, centerComponent, newRightComponent)
     }
 

@@ -3,12 +3,11 @@ package com.example.toolbarlib.custom.component
 import android.content.Context
 import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
-import com.example.toolbarlib.custom.component.Component
 
 class ImageComponent(
     private val imageRes: Int,
-    private val onImageClick: () -> Unit
-) : Component() {
+    onImageClick: (() -> Unit)? = null
+) : Component(onImageClick) {
 
     override fun getView(context: Context): View {
         if(mView != null) return mView!!
@@ -16,7 +15,7 @@ class ImageComponent(
         mView = image
         image.id = View.generateViewId()
         image.adjustViewBounds = true
-        image.setOnClickListener { onImageClick.invoke() }
+        image.setOnClickListener { callback?.invoke() }
         image.setImageResource(imageRes)
         return image
     }

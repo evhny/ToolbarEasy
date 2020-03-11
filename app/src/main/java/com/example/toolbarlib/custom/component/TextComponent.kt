@@ -11,8 +11,8 @@ import com.example.toolbarlib.R
 class TextComponent(
     val text: String,
     @StyleRes private val style: Int = R.style.TextComponent,
-    private val onTextClick: (() -> Unit)? = null
-) : Component() {
+    onTextClick: (() -> Unit)? = null
+) : Component(onTextClick) {
 
 
     override fun getView(context: Context): View {
@@ -28,7 +28,7 @@ class TextComponent(
         textView.gravity = Gravity.CENTER
         textView.text = text
         textView.setOnClickListener {
-            onTextClick?.invoke()
+            callback?.invoke()
         }
         mView = textView
         return textView
