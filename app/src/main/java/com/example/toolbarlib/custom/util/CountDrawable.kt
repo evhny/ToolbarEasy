@@ -75,6 +75,9 @@ class CountDrawable(val textSize: Float) : Drawable() {
         mBadgePaint.color = intColor
     }
 
+    fun setTextTypeface(typeface: Typeface){
+        mTextPaint.typeface = typeface
+    }
 
     override fun setAlpha(alpha: Int) {
         // do nothing

@@ -74,10 +74,10 @@ class MainActivity : AppCompatActivity() {
                     component = ImageComponent(R.mipmap.ic_launcher),
                     onClick = {},
                     position = BadgeComponent.Position.BOTTOM_RIGHT,
-                    badgeSize = 16f,
+                    badgeSize = 18f,
                     count = 87,
                     badgeColor = Color.RED,
-                    badgeTextColor = Color.BLUE,
+                    badgeTextColor = Color.WHITE,
                     badgeTextSize = 12f)
             )
         }

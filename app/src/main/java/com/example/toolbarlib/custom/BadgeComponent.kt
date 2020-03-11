@@ -2,6 +2,7 @@ package com.example.toolbarlib.custom.component
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Typeface
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,7 @@ class BadgeComponent(
     private val component: Component,
     private val badgeTextSize: Float = 10f,
     private val badgeTextColor: Int = Color.WHITE,
+    private val badgeTextTypeface: Typeface = Typeface.DEFAULT,
     private val badgeSize: Float = 10f,
     private val badgeColor: Int = Color.BLACK,
     private val count: Int = 0,
@@ -35,7 +37,6 @@ class BadgeComponent(
         )
         container.setOnClickListener { onClick.invoke() }
         container.id = View.generateViewId()
-        container.setBackgroundColor(Color.DKGRAY)
 
         container.addView(contentView)
 
@@ -51,6 +52,7 @@ class BadgeComponent(
         badge.setTextColor(badgeTextColor)
         badge.setBadgeColor(badgeColor)
         badge.setCount(count.toString())
+        badge.setTextTypeface(badgeTextTypeface)
         imageBadge.setImageDrawable(badge)
 
         container.addView(imageBadge, layoutParams)
