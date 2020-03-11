@@ -1,5 +1,6 @@
 package com.example.toolbarlib
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -61,6 +62,19 @@ class MainActivity : AppCompatActivity() {
                     }
                 )
             , GravityPosition.RIGHT)
+
+            addComponent(
+                BadgeComponent(
+                    component = ImageComponent(R.mipmap.ic_launcher),
+                    onClick = {},
+                    position = BadgeComponent.Position.BOTTOM_RIGHT,
+                    badgeSize = 18f,
+                    count = 87,
+                    badgeColor = Color.RED,
+                    badgeTextColor = Color.WHITE,
+                    badgeTextSize = 12f)
+                , GravityPosition.CENTER
+            )
         }
 
     }

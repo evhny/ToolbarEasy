@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.appcompat.widget.AppCompatImageView
-import com.example.toolbarlib.custom.Component
 import com.example.toolbarlib.custom.property.extensions.convertSpToPix
 import com.example.toolbarlib.custom.property.extensions.convertToPix
 import com.example.toolbarlib.custom.util.CountDrawable
@@ -27,8 +26,8 @@ class BadgeComponent(
 ) : Component() {
 
     override fun getView(context: Context): View {
+        if (mView != null) return mView!!
         val contentView = component.getView(context)
-        contentView.setBackgroundColor(Color.CYAN)
 
         val container = FrameLayout(context)
         container.layoutParams = ViewGroup.LayoutParams(
@@ -37,7 +36,7 @@ class BadgeComponent(
         )
         container.setOnClickListener { onClick.invoke() }
         container.id = View.generateViewId()
-
+        mView = container
         container.addView(contentView)
 
         val imageBadge = AppCompatImageView(context)
