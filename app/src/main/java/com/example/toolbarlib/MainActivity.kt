@@ -49,11 +49,32 @@ class MainActivity : AppCompatActivity() {
     private fun initToolbar() {
 
         toolbar.createToolbar {
-            addComponent(TextComponent("TitleTitleTitleTitle"), GravityPosition.CENTER)
-            addComponent(TextComponent("TitleTitleTitleTitle").setCanBeCollapsed(false))
-            addComponent(TextComponent("TitleTitleTitleTitle").setCanBeCollapsed(false))
-//            addComponent(ImageComponent(R.drawable.ic_more_vert_black_24dp).setCanBeCollapsed(false))
-
+            addComponent(
+                RemasteredMenuComponent(
+                    R.drawable.ic_more_vert_black_24dp,
+                    {
+                        add(TextComponent("Какойтотекс"))
+                        add(ImageComponent(R.drawable.ic_account_circle_black_24dp))
+                        add("Some item1", "Some item2", "Some item3")
+                    },
+                    {
+                        //Обработка всех у кого нет Callback-а
+                    }
+                )
+            , GravityPosition.RIGHT)
+            addComponent(
+                BadgeComponent(
+                    component = ImageComponent(R.mipmap.ic_launcher),
+                    onClick = {},
+                    position = BadgeComponent.Position.BOTTOM_RIGHT,
+                    badgeSize = 18f,
+                    count = 87,
+                    badgeColor = Color.RED,
+                    badgeTextColor = Color.WHITE,
+                    badgeTextSize = 12f)
+                , GravityPosition.CENTER
+            )
+           // addComponent(TextComponent("text 123", textColor = R.color.colorAccent, textSize = R.dimen.text_size_18))
         }
 
     }
