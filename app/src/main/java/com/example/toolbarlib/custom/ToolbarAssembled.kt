@@ -3,7 +3,6 @@ package com.example.toolbarlib.custom
 import android.content.Context
 import android.util.AttributeSet
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
@@ -14,7 +13,6 @@ import androidx.core.view.isEmpty
 import com.example.toolbarlib.R
 import com.example.toolbarlib.custom.component.Component
 import com.example.toolbarlib.custom.component.MenuComponent
-import com.example.toolbarlib.custom.component.PopupComponent
 import com.example.toolbarlib.custom.component.TextComponent
 import com.example.toolbarlib.custom.property.GravityPosition
 import com.example.toolbarlib.custom.property.Margin
@@ -25,7 +23,9 @@ class ToolbarAssembled @JvmOverloads constructor(
 ) : Toolbar(context, attrs, defStyleAttr) {
 
     private val container = ConstraintLayout(context)
-    private var creator: Creator? =null
+    private var creator: Creator? = null
+    private var isNeedConnectLeftToCenter = false
+    private var isNeedConnectRightToCenter = false
 
     init {
         super.addView(
@@ -41,7 +41,7 @@ class ToolbarAssembled @JvmOverloads constructor(
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        if(measuredHeight > 0 && container.isEmpty()){
+        if (measuredHeight > 0 && container.isEmpty()) {
             creator?.let { collectComponent(it) }
         }
     }
@@ -73,7 +73,12 @@ class ToolbarAssembled @JvmOverloads constructor(
         components.forEachIndexed { index, component ->
             container.addView(
                 component.getView(context),
-                ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, 0)
+                ConstraintLayout.LayoutParams(
+                    if (component.gravity == GravityPosition.LEFT && isNeedConnectLeftToCenter
+                        || component.gravity == GravityPosition.RIGHT && isNeedConnectRightToCenter) 0
+                    else ConstraintLayout.LayoutParams.WRAP_CONTENT,
+                    0
+                )
             )
         }
         centerComponent.forEachIndexed { index, component ->
@@ -84,10 +89,13 @@ class ToolbarAssembled @JvmOverloads constructor(
             )
         }
         leftComponent.forEachIndexed { index, component ->
+            val nextId =
+                if (index == leftComponent.size - 1 && centerComponent.isNotEmpty() && isNeedConnectLeftToCenter) centerComponent.last().mViewId
+                else leftComponent.getOrNull(index + 1)?.mViewId ?: -1
             constraintSetLeft(
                 component,
                 leftComponent.getOrNull(index - 1)?.mViewId ?: -1,
-                leftComponent.getOrNull(index + 1)?.mViewId ?: -1
+                nextId
             )
         }
         rightComponent.forEachIndexed { index, component ->
@@ -111,45 +119,73 @@ class ToolbarAssembled @JvmOverloads constructor(
         val centerWidth = calculateWidth(centerComponent, displayWidth)
         val freeSpaceParties = (displayWidth - centerWidth.first) / 2
 
-        val rightResultSum = calculateWidth(rightComponent, freeSpaceParties)
-        val leftWidth = calculateWidth(leftComponent, freeSpaceParties)
+        val rightListCantCollapsed = mutableListOf<Component>()
+        val rightListCanCollapsed = mutableListOf<Component>()
 
-        val newRightComponent = mutableListOf<Component>()
-        val newLeftComponent = mutableListOf<Component>()
-
-        if ((centerWidth.first + rightResultSum.first + leftWidth.first) > displayWidth) {
-
-            if(rightComponent.isNotEmpty() && rightResultSum.second.size  > 1){
-                newRightComponent.addAll(rightComponent.subList(0, rightResultSum.second.size - 1))
-                newRightComponent.add(collapsedComponentToMenu(rightComponent.subList(rightResultSum.second.size, rightComponent.size)))
-            } else if(rightComponent.isNotEmpty()){
-                newRightComponent.add(collapsedComponentToMenu(rightComponent))
-            }
-
-            if(leftComponent.isNotEmpty() && leftWidth.second.size > 1){
-                newLeftComponent.addAll(leftComponent.subList(0, leftWidth.second.size - 1))
-                newLeftComponent.add(collapsedComponentToMenu(leftComponent.subList(leftWidth.second.size, leftWidth.second.size)))
-            } else if(leftComponent.isNotEmpty()){
-                newLeftComponent.add(collapsedComponentToMenu(leftComponent))
-            }
-
-            Log.d(
-                "Calculate",
-                "freeSpace: $freeSpaceParties"
-            )
-        } else {
-            newLeftComponent.addAll(leftComponent)
-            newRightComponent.addAll(rightComponent)
+        rightComponent.forEach {
+            if (it.isCanBeCollapsed()) rightListCanCollapsed.add(it)
+            else rightListCantCollapsed.add(it)
         }
-        return Triple(newLeftComponent, centerComponent, newRightComponent)
+        val leftListCantCollapsed = mutableListOf<Component>()
+        val leftListCanCollapsed = mutableListOf<Component>()
+
+        leftComponent.forEach {
+            if (it.isCanBeCollapsed()) leftListCanCollapsed.add(it)
+            else leftListCantCollapsed.add(it)
+        }
+
+        val rightResultCanCollapsed = calculateWidth(rightListCanCollapsed, freeSpaceParties)
+        val leftResultCanCollapsed = calculateWidth(leftListCanCollapsed, freeSpaceParties)
+
+        val newRightComponent =
+            collapsed(rightListCanCollapsed, rightResultCanCollapsed, freeSpaceParties)
+        val newLeftComponent =
+            collapsed(leftListCanCollapsed, leftResultCanCollapsed, freeSpaceParties)
+
+        val (i, j) = calculateWidth(rightListCantCollapsed, freeSpaceParties)
+        val rightResultCantCollapsed = calculateWidth(rightListCantCollapsed, freeSpaceParties)
+        val leftResultCantCollapsed = calculateWidth(leftListCantCollapsed, freeSpaceParties)
+        val postRightResultCanCollapsed = calculateWidth(newRightComponent, freeSpaceParties)
+        val postLeftResultCanCollapsed = calculateWidth(newLeftComponent, freeSpaceParties)
+
+        isNeedConnectLeftToCenter =
+            leftResultCantCollapsed.first + postLeftResultCanCollapsed.first > freeSpaceParties
+        isNeedConnectRightToCenter =
+            rightResultCantCollapsed.first + postRightResultCanCollapsed.first > freeSpaceParties
+
+        rightListCantCollapsed.addAll(newRightComponent)
+        leftListCantCollapsed.addAll(newLeftComponent)
+        return Triple(leftListCantCollapsed, centerComponent, rightListCantCollapsed)
     }
 
-    private fun collapsedComponentToMenu(components: List<Component>): MenuComponent{
+    private fun collapsed(
+        components: List<Component>,
+        result: Pair<Int, Array<Int>>,
+        freeSpaceParties: Int
+    ): List<Component> {
+        val newComponent = mutableListOf<Component>()
+        if (result.first > freeSpaceParties && components.isNotEmpty() && result.second.size > 1) {
+            newComponent.addAll(components.subList(0, result.second.size - 1))
+            newComponent.add(
+                collapsedComponentToMenu(
+                    components.subList(
+                        result.second.size,
+                        components.size
+                    )
+                )
+            )
+        } else {
+            newComponent.addAll(components)
+        }
+        return newComponent
+    }
+
+    private fun collapsedComponentToMenu(components: List<Component>): MenuComponent {
         var array = arrayOf<String>()
         components.forEach {
-            if(it is TextComponent){
+            if (it is TextComponent) {
                 array = array.plus(it.text)
-            } else if(it is MenuComponent){
+            } else if (it is MenuComponent) {
                 array = array.plus(it.items)
             }
         }
@@ -173,7 +209,7 @@ class ToolbarAssembled @JvmOverloads constructor(
             val measuredWidth = view.measuredWidth
             sumWith += measuredWidth
             if (freeSpaceParties > sumWith)
-              array = array.plusElement(measuredWidth)
+                array = array.plusElement(measuredWidth)
 
         }
         return Pair(sumWith, array)
@@ -278,7 +314,6 @@ class ToolbarAssembled @JvmOverloads constructor(
             component.gravity = gravity
             this.addComponent(component)
         }
-
 
 
         fun getComponents() = components.toList()

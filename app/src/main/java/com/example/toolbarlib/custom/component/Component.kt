@@ -7,7 +7,6 @@ import com.example.toolbarlib.custom.property.Margin
 
 abstract class Component {
 
-
     var callback: (() -> Unit)? = null
 
     var gravity: GravityPosition = GravityPosition.LEFT
@@ -22,6 +21,8 @@ abstract class Component {
 
     var mViewId = -1
 
+    private var isCanBeCollapsed = false
+
     constructor()
 
     constructor(callback: (() -> Unit)?) {
@@ -31,4 +32,11 @@ abstract class Component {
     abstract fun getView(context: Context): View
 
     fun isInitCallback() = callback != null
+
+    fun isCanBeCollapsed() = isCanBeCollapsed
+
+    fun setCanBeCollapsed(canBeCollapsed: Boolean): Component {
+        isCanBeCollapsed = canBeCollapsed
+        return this
+    }
 }
