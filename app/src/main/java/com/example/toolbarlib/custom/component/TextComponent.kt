@@ -1,7 +1,9 @@
 package com.example.toolbarlib.custom.component
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Build
+import android.text.TextUtils
 import android.view.Gravity
 import android.view.View
 import android.widget.TextView
@@ -51,7 +53,7 @@ class TextComponent(
             textView.typeface = ResourcesCompat.getFont(context, textFontRes)
         }
         if (textColor != null) {
-            textView.setTextColor(textColor!!)
+            textView.setTextColor(ContextCompat.getColor(context, textColor)!!)
         }
         if (textSize != null) {
             textView.textSize = context.resources.getDimension(textSize)
@@ -62,5 +64,7 @@ class TextComponent(
         if (maxLines != null) {
             textView.maxLines = maxLines
         }
+        textView.ellipsize = TextUtils.TruncateAt.END
+
     }
 }
