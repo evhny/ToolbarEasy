@@ -74,7 +74,11 @@ class MainActivity : AppCompatActivity() {
                     badgeTextSize = 12f)
                 , GravityPosition.CENTER
             )
-           // addComponent(TextComponent("text 123", textColor = R.color.colorAccent, textSize = R.dimen.text_size_18))
+            addComponent(TextComponent("text 123 222 2222 22222 22222 222222 2222 2222 22222 2222 2222 222 222 222 2 2",
+                textColor = R.color.colorWhite,
+                textSize = R.dimen.text_size_5,
+                maxLines = 2
+            ).setCanBeCollapsed(false))
         }
 
     }
