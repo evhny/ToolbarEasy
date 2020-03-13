@@ -14,12 +14,17 @@ abstract class Component {
     var margin: Margin = Margin()
 
     protected var mView: View? = null
-        set(value) {
-            mViewId = value?.id ?: -1
+    set(value) {
+        if(value != null){
+            value.id = View.generateViewId()
             field = value
         }
+    }
 
     var mViewId = -1
+    get() {
+        return mView?.id ?: field
+    }
 
     private var isCanBeCollapsed = false
 

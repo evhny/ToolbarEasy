@@ -11,12 +11,11 @@ class ImageComponent(
 
     override fun getView(context: Context): View {
         if(mView != null) return mView!!
-        val image = AppCompatImageView(context)
-        mView = image
-        image.id = View.generateViewId()
-        image.adjustViewBounds = true
-        image.setOnClickListener { callback?.invoke() }
-        image.setImageResource(imageRes)
-        return image
+        mView = AppCompatImageView(context)
+            .apply {
+                setOnClickListener { callback?.invoke() }
+                setImageResource(imageRes)
+            }
+        return mView!!
     }
 }
