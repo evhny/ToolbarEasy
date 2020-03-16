@@ -1,12 +1,16 @@
 package com.example.toolbarlib
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import com.example.toolbarlib.custom.component.BadgeComponent
 import com.example.toolbarlib.custom.component.ImageComponent
 import com.example.toolbarlib.custom.component.TextComponent
 import com.example.toolbarlib.custom.property.GravityPosition
+import com.example.toolbarlib.custom.property.Margin
+import com.example.toolbarlib.custom.property.consts.MarginSet
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -60,15 +64,34 @@ class MainActivity : AppCompatActivity() {
                 TextComponent("asdasdasd"),
                 GravityPosition.RIGHT
             )
+            addComponent(BadgeComponent(
+                component = ImageComponent(R.mipmap.ic_launcher),
+                onClick = {},
+                position = BadgeComponent.Position.BOTTOM_LEFT,
+                badgeSize = 18f,
+                count = 87,
+                badgeColor = Color.RED,
+                badgeTextColor = Color.WHITE,
+                badgeTextSize = 12f
+            )
+                , Margin().apply {
+                    marginBottom = MarginSet.BIG
+                    marginTop = MarginSet.BIG
+                }, GravityPosition.LEFT
+            )
             addComponent(
                 TextComponent("asdasdasd")
             )
-            addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp))
+            addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp), Margin().apply {
+                marginBottom = MarginSet.BIG
+                marginTop = MarginSet.BIG
+            })
             addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp))
             addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp))
             addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp))
         }
 
+        toolbar.setHomeButtonEnabled(true)
         toolbar.setOnHomeButtonClick {
             Snackbar.make(toolbar, "OnHomeButtonClick", Snackbar.LENGTH_LONG).show()
         }

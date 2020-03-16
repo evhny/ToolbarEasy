@@ -10,7 +10,9 @@ import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.view.get
 import androidx.core.view.isEmpty
+import androidx.core.view.size
 import com.example.toolbarlib.R
 import com.example.toolbarlib.custom.component.BackComponent
 import com.example.toolbarlib.custom.component.Component
@@ -110,6 +112,9 @@ class ToolbarAssembled @JvmOverloads constructor(
                 rightComponent.getOrNull(index - 1)?.mViewId ?: -1,
                 leftComponent.getOrNull(index + 1)?.mViewId ?: -1
             )
+        }
+        components.forEach {
+            fixMargins(it)
         }
     }
 
@@ -312,6 +317,17 @@ class ToolbarAssembled @JvmOverloads constructor(
                 if (nextId > 0) ConstraintSet.END else ConstraintSet.START
             )
         set.applyTo(container)
+    }
+
+    private fun fixMargins(component: Component) {
+        val view = component.getView(context)
+        val lParams = view.layoutParams as ConstraintLayout.LayoutParams
+        if (lParams.bottomMargin + lParams.topMargin + view.height > container.height) {
+            lParams.bottomMargin = 0
+        }
+        if (lParams.topMargin + view.height > container.height) {
+            lParams.topMargin = 0
+        }
     }
 
     fun setOnHomeButtonClick(onHomeButtonClick: (() -> Unit)? = null) {
