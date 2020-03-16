@@ -1,17 +1,12 @@
 package com.example.toolbarlib
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.toolbarlib.custom.component.*
-import com.example.toolbarlib.custom.component.menu.MenuAdapter
-import com.example.toolbarlib.custom.component.menu.RemasteredMenuComponent
+import com.example.toolbarlib.custom.component.ImageComponent
+import com.example.toolbarlib.custom.component.TextComponent
 import com.example.toolbarlib.custom.property.GravityPosition
-import com.example.toolbarlib.custom.property.Margin
-import com.example.toolbarlib.custom.property.consts.MarginSet
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -50,37 +45,28 @@ class MainActivity : AppCompatActivity() {
 
         toolbar.createToolbar {
             addComponent(
-                RemasteredMenuComponent(
-                    R.drawable.ic_more_vert_black_24dp,
-                    {
-                        add(TextComponent("Какойтотекс"))
-                        add(ImageComponent(R.drawable.ic_account_circle_black_24dp))
-                        add("Some item1", "Some item2", "Some item3")
-                    },
-                    {
-                        //Обработка всех у кого нет Callback-а
-                    }
-                )
-                , GravityPosition.RIGHT)
-            addComponent(
-                BadgeComponent(
-                    component = ImageComponent(R.mipmap.ic_launcher),
-                    onClick = { toolbar.setHomeButtonEnabled(!toolbar.isHomeButtonEnabled()!!) },
-                    position = BadgeComponent.Position.BOTTOM_RIGHT,
-                    badgeSize = 18f,
-                    count = 87,
-                    badgeColor = Color.RED,
-                    badgeTextColor = Color.WHITE,
-                    badgeTextSize = 12f
-                )
-                , Margin().apply { marginStart = MarginSet.MEDIUM }
-                , GravityPosition.LEFT
+                ImageComponent(R.drawable.ic_account_circle_black_24dp),
+                GravityPosition.RIGHT
             )
-            /* addComponent(TextComponent("text 123 222 2222 22222 22222 222222 2222 2222 22222 2222 2222 222 222 222 2 2",
-                 textColor = R.color.colorWhite,
-                 textSize = R.dimen.text_size_5,
-                 maxLines = 2
-             ).setCanBeCollapsed(false))*/
+            addComponent(
+                ImageComponent(R.drawable.ic_account_circle_black_24dp),
+                GravityPosition.RIGHT
+            )
+            addComponent(
+                ImageComponent(R.drawable.ic_account_circle_black_24dp),
+                GravityPosition.RIGHT
+            )
+            addComponent(
+                TextComponent("asdasdasd"),
+                GravityPosition.RIGHT
+            )
+            addComponent(
+                TextComponent("asdasdasd")
+            )
+            addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp))
+            addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp))
+            addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp))
+            addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp))
         }
 
         toolbar.setOnHomeButtonClick {

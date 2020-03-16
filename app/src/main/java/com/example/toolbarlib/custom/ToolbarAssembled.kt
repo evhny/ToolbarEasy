@@ -6,7 +6,6 @@ import android.util.DisplayMetrics
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -108,7 +107,8 @@ class ToolbarAssembled @JvmOverloads constructor(
         rightComponent.forEachIndexed { index, component ->
             constraintSetRight(
                 component,
-                rightComponent.getOrNull(index - 1)?.mViewId ?: -1
+                rightComponent.getOrNull(index - 1)?.mViewId ?: -1,
+                leftComponent.getOrNull(index + 1)?.mViewId ?: -1
             )
         }
     }
@@ -285,17 +285,18 @@ class ToolbarAssembled @JvmOverloads constructor(
             if (previewId > 0) previewId else ConstraintSet.PARENT_ID,
             if (previewId > 0) ConstraintSet.END else ConstraintSet.START
         )
-        if (nextId > 0)
+
+        if (isNeedConnectLeftToCenter)
             set.connect(
                 component.getView(context).id,
                 ConstraintSet.END,
-                nextId,
-                ConstraintSet.START
+                if (nextId > 0) nextId else ConstraintSet.PARENT_ID,
+                if (nextId > 0) ConstraintSet.START else ConstraintSet.END
             )
         set.applyTo(container)
     }
 
-    private fun constraintSetRight(component: Component, previewId: Int) {
+    private fun constraintSetRight(component: Component, previewId: Int, nextId: Int) {
         val set = createConstraintSet(component)
         set.connect(
             component.mViewId,
@@ -303,6 +304,13 @@ class ToolbarAssembled @JvmOverloads constructor(
             if (previewId > 0) previewId else ConstraintSet.PARENT_ID,
             if (previewId > 0) ConstraintSet.START else ConstraintSet.END
         )
+        if (isNeedConnectRightToCenter)
+            set.connect(
+                component.getView(context).id,
+                ConstraintSet.START,
+                if (nextId > 0) nextId else ConstraintSet.PARENT_ID,
+                if (nextId > 0) ConstraintSet.END else ConstraintSet.START
+            )
         set.applyTo(container)
     }
 
