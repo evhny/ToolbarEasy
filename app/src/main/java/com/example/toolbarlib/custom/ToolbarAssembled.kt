@@ -6,16 +6,20 @@ import android.util.DisplayMetrics
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.ImageView
+import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.isEmpty
 import com.example.toolbarlib.R
+import com.example.toolbarlib.custom.component.BackComponent
 import com.example.toolbarlib.custom.component.Component
 import com.example.toolbarlib.custom.component.MenuComponent
 import com.example.toolbarlib.custom.component.TextComponent
 import com.example.toolbarlib.custom.property.GravityPosition
 import com.example.toolbarlib.custom.property.Margin
+import com.example.toolbarlib.custom.property.consts.MarginSet
 import com.example.toolbarlib.custom.property.extensions.convertToPix
 
 class ToolbarAssembled @JvmOverloads constructor(
@@ -27,12 +31,14 @@ class ToolbarAssembled @JvmOverloads constructor(
     private var isNeedConnectLeftToCenter = false
     private var isNeedConnectRightToCenter = false
 
+    private var backComponent: BackComponent? = null
+
     init {
         super.addView(
             container,
             LayoutParams(LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
         )
-
+        backComponent = BackComponent(/*onClick = { setOnHomeButtonClick() }*/)
     }
 
     override fun addView(child: View?, params: ViewGroup.LayoutParams?) {
@@ -75,7 +81,8 @@ class ToolbarAssembled @JvmOverloads constructor(
                 component.getView(context),
                 ConstraintLayout.LayoutParams(
                     if (component.gravity == GravityPosition.LEFT && isNeedConnectLeftToCenter
-                        || component.gravity == GravityPosition.RIGHT && isNeedConnectRightToCenter) 0
+                        || component.gravity == GravityPosition.RIGHT && isNeedConnectRightToCenter
+                    ) 0
                     else ConstraintLayout.LayoutParams.WRAP_CONTENT,
                     0
                 )
@@ -294,8 +301,34 @@ class ToolbarAssembled @JvmOverloads constructor(
         set.applyTo(container)
     }
 
+    fun setOnHomeButtonClick(onHomeButtonClick: (() -> Unit)? = null) {
+        backComponent?.callback = onHomeButtonClick
+    }
+
+    fun setHomeButtonIcon(@DrawableRes iconRes: Int) {
+        backComponent?.setHomeButtonIcon(iconRes)
+    }
+
+    fun setHomeButtonEnabled(isEnabled: Boolean) {
+        backComponent?.setHomeButtonEnabled(isEnabled)
+    }
+
+    fun isHomeButtonEnabled() = backComponent?.isEnabled
+
 
     inner class Creator(private val components: MutableList<Component> = mutableListOf()) {
+
+        init {
+            addComponent(
+                backComponent!!,
+                Margin().apply {
+                    marginStart = MarginSet.MEDIUM
+                    marginEnd = MarginSet.MEDIUM
+                },
+                GravityPosition.LEFT
+            )
+        }
+
         fun addComponent(component: Component) {
             this.components.add(component)
         }

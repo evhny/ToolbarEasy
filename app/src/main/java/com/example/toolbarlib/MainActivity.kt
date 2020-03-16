@@ -61,24 +61,30 @@ class MainActivity : AppCompatActivity() {
                         //Обработка всех у кого нет Callback-а
                     }
                 )
-            , GravityPosition.RIGHT)
+                , GravityPosition.RIGHT)
             addComponent(
                 BadgeComponent(
                     component = ImageComponent(R.mipmap.ic_launcher),
-                    onClick = {},
+                    onClick = { toolbar.setHomeButtonEnabled(!toolbar.isHomeButtonEnabled()!!) },
                     position = BadgeComponent.Position.BOTTOM_RIGHT,
                     badgeSize = 18f,
                     count = 87,
                     badgeColor = Color.RED,
                     badgeTextColor = Color.WHITE,
-                    badgeTextSize = 12f)
-                , GravityPosition.CENTER
+                    badgeTextSize = 12f
+                )
+                , Margin().apply { marginStart = MarginSet.MEDIUM }
+                , GravityPosition.LEFT
             )
-            addComponent(TextComponent("text 123 222 2222 22222 22222 222222 2222 2222 22222 2222 2222 222 222 222 2 2",
-                textColor = R.color.colorWhite,
-                textSize = R.dimen.text_size_5,
-                maxLines = 2
-            ).setCanBeCollapsed(false))
+            /* addComponent(TextComponent("text 123 222 2222 22222 22222 222222 2222 2222 22222 2222 2222 222 222 222 2 2",
+                 textColor = R.color.colorWhite,
+                 textSize = R.dimen.text_size_5,
+                 maxLines = 2
+             ).setCanBeCollapsed(false))*/
+        }
+
+        toolbar.setOnHomeButtonClick {
+            Snackbar.make(toolbar, "OnHomeButtonClick", Snackbar.LENGTH_LONG).show()
         }
 
     }
