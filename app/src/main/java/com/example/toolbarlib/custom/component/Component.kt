@@ -26,7 +26,7 @@ abstract class Component {
         return mView?.id ?: field
     }
 
-    private var isCanBeCollapsed = false
+    private var isCanBeCollapsed = true
 
     constructor()
 

@@ -75,7 +75,8 @@ class ToolbarAssembled @JvmOverloads constructor(
                 component.getView(context),
                 ConstraintLayout.LayoutParams(
                     if (component.gravity == GravityPosition.LEFT && isNeedConnectLeftToCenter
-                        || component.gravity == GravityPosition.RIGHT && isNeedConnectRightToCenter) 0
+                        || component.gravity == GravityPosition.RIGHT && isNeedConnectRightToCenter
+                    ) 0
                     else ConstraintLayout.LayoutParams.WRAP_CONTENT,
                     0
                 )
@@ -117,7 +118,8 @@ class ToolbarAssembled @JvmOverloads constructor(
 
         val displayWidth = metrics.widthPixels
         val centerWidth = calculateWidth(centerComponent, displayWidth)
-        val freeSpaceParties = (displayWidth - centerWidth.first) / 2
+        var freeSpaceParties =
+            if (centerComponent.isEmpty()) -1 else (displayWidth - centerWidth.first) / 2
 
         val rightListCantCollapsed = mutableListOf<Component>()
         val rightListCanCollapsed = mutableListOf<Component>()
@@ -134,28 +136,29 @@ class ToolbarAssembled @JvmOverloads constructor(
             else leftListCantCollapsed.add(it)
         }
 
-        val rightResultCanCollapsed = calculateWidth(rightListCanCollapsed, freeSpaceParties)
-        val leftResultCanCollapsed = calculateWidth(leftListCanCollapsed, freeSpaceParties)
+        val space = if (freeSpaceParties == -1) displayWidth else freeSpaceParties
+        val leftResultCanCollapsed = calculateWidth(leftListCanCollapsed, space)
+        val newLeftComponent = collapsed(leftListCanCollapsed, leftResultCanCollapsed, space)
+        val leftResultCantCollapsed = calculateWidth(leftListCantCollapsed, space)
+        val postLeftResultCanCollapsed = calculateWidth(newLeftComponent, space)
+        isNeedConnectLeftToCenter =
+            leftResultCantCollapsed.first + postLeftResultCanCollapsed.first > space
 
+        freeSpaceParties =
+            if (freeSpaceParties == -1 && leftResultCantCollapsed.first + postLeftResultCanCollapsed.first > 0) displayWidth - (leftResultCantCollapsed.first + postLeftResultCanCollapsed.first) else space
+
+        val rightResultCanCollapsed = calculateWidth(rightListCanCollapsed, freeSpaceParties)
         val newRightComponent =
             collapsed(rightListCanCollapsed, rightResultCanCollapsed, freeSpaceParties)
-        val newLeftComponent =
-            collapsed(leftListCanCollapsed, leftResultCanCollapsed, freeSpaceParties)
-
-        val (i, j) = calculateWidth(rightListCantCollapsed, freeSpaceParties)
         val rightResultCantCollapsed = calculateWidth(rightListCantCollapsed, freeSpaceParties)
-        val leftResultCantCollapsed = calculateWidth(leftListCantCollapsed, freeSpaceParties)
         val postRightResultCanCollapsed = calculateWidth(newRightComponent, freeSpaceParties)
-        val postLeftResultCanCollapsed = calculateWidth(newLeftComponent, freeSpaceParties)
 
-        isNeedConnectLeftToCenter =
-            leftResultCantCollapsed.first + postLeftResultCanCollapsed.first > freeSpaceParties
         isNeedConnectRightToCenter =
             rightResultCantCollapsed.first + postRightResultCanCollapsed.first > freeSpaceParties
 
         rightListCantCollapsed.addAll(newRightComponent)
         leftListCantCollapsed.addAll(newLeftComponent)
-        return Triple(leftListCantCollapsed, centerComponent, rightListCantCollapsed)
+        return Triple(leftListCantCollapsed, centerComponent, rightListCantCollapsed.reversed())
     }
 
     private fun collapsed(
@@ -206,7 +209,10 @@ class ToolbarAssembled @JvmOverloads constructor(
                 MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
                 MeasureSpec.makeMeasureSpec(container.measuredHeight, MeasureSpec.EXACTLY)
             )
-            val measuredWidth = view.measuredWidth
+            val measuredWidth = view.measuredWidth + it.convertToPix(
+                it.margin.marginEnd,
+                context
+            ) + it.convertToPix(it.margin.marginStart, context)
             sumWith += measuredWidth
             if (freeSpaceParties > sumWith)
                 array = array.plusElement(measuredWidth)
