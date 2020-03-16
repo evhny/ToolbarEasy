@@ -23,18 +23,19 @@ class BadgeComponent(
     private val count: Int = 0,
     private val position: Position = Position.BOTTOM_LEFT,
     private val onClick: () -> Unit
-) : Component() {
+) : Component(onClick) {
 
     override fun getView(context: Context): View {
         if (mView != null) return mView!!
         val contentView = component.getView(context)
+        component.callback = onClick
 
         val container = FrameLayout(context)
         container.layoutParams = ViewGroup.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        container.setOnClickListener { onClick.invoke() }
+        // container.setOnClickListener { onClick.invoke() }
         container.id = View.generateViewId()
         mView = container
         container.addView(contentView)
@@ -55,6 +56,7 @@ class BadgeComponent(
         imageBadge.setImageDrawable(badge)
 
         container.addView(imageBadge, layoutParams)
+
         return container
     }
 
