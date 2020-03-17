@@ -7,6 +7,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.RelativeLayout
 import androidx.appcompat.widget.AppCompatImageView
 import com.example.toolbarlib.custom.property.extensions.convertSpToPix
 import com.example.toolbarlib.custom.property.extensions.convertToPix
@@ -22,31 +23,35 @@ class BadgeComponent(
     private val badgeColor: Int = Color.BLACK,
     private val count: Int = 0,
     private val position: Position = Position.BOTTOM_LEFT,
+    private val width: Float? = null,
+    private val height: Float? = null,
     private val onClick: () -> Unit
 ) : Component(onClick) {
 
     override fun getView(context: Context): View {
         if (mView != null) return mView!!
         val contentView = component.getView(context)
+
         component.callback = onClick
 
-        val container = FrameLayout(context)
+        val container = RelativeLayout(context)
         container.layoutParams = ViewGroup.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        // container.setOnClickListener { onClick.invoke() }
+
         container.id = View.generateViewId()
         mView = container
-        container.addView(contentView)
+
+        container.addView(contentView, RelativeLayout.LayoutParams(
+            if (width != null)
+                convertToPix(width, context) else ViewGroup.LayoutParams.WRAP_CONTENT,
+            if (height != null)
+                convertToPix(height, context) else ViewGroup.LayoutParams.WRAP_CONTENT
+        ).apply { addRule(RelativeLayout.CENTER_IN_PARENT) })
 
         val imageBadge = AppCompatImageView(context)
-        val layoutParams = FrameLayout.LayoutParams(
-            convertToPix(badgeSize, context),
-            convertToPix(badgeSize, context)
-        )
-
-        layoutParams.gravity = getGravityByPosition()
+        val layoutParams = createBadgeParams(contentView)
 
         val badge = CountDrawable(convertSpToPix(badgeTextSize, context).toFloat())
         badge.setTextColor(badgeTextColor)
@@ -60,14 +65,35 @@ class BadgeComponent(
         return container
     }
 
-    private fun getGravityByPosition(): Int {
-        return when (position) {
-            Position.BOTTOM_LEFT -> Gravity.BOTTOM or Gravity.START
-            Position.CENTER -> Gravity.CENTER
-            Position.BOTTOM_RIGHT -> Gravity.BOTTOM or Gravity.END
-            Position.TOP_LEFT -> Gravity.TOP or Gravity.START
-            Position.TOP_RIGHT -> Gravity.TOP or Gravity.END
+    private fun createBadgeParams(view: View): RelativeLayout.LayoutParams {
+        val params = RelativeLayout.LayoutParams(
+            convertToPix(badgeSize, view.context),
+            convertToPix(badgeSize, view.context)
+        )
+
+        when (position) {
+            Position.BOTTOM_LEFT -> {
+                params.addRule(RelativeLayout.ALIGN_START, view.id)
+                params.addRule(RelativeLayout.ALIGN_BOTTOM, view.id)
+            }
+            Position.CENTER -> {
+                params.addRule(RelativeLayout.CENTER_IN_PARENT)
+            }
+            Position.BOTTOM_RIGHT -> {
+                params.addRule(RelativeLayout.ALIGN_END, view.id)
+                params.addRule(RelativeLayout.ALIGN_BOTTOM, view.id)
+            }
+            Position.TOP_LEFT -> {
+                params.addRule(RelativeLayout.ALIGN_START, view.id)
+                params.addRule(RelativeLayout.ALIGN_TOP, view.id)
+            }
+            Position.TOP_RIGHT -> {
+                params.addRule(RelativeLayout.ALIGN_END, view.id)
+                params.addRule(RelativeLayout.ALIGN_TOP, view.id)
+            }
         }
+
+        return params
     }
 
     enum class Position() {
