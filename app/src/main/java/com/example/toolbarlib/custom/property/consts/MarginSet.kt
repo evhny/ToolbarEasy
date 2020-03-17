@@ -3,6 +3,7 @@ package com.example.toolbarlib.custom.property.consts
 
 class MarginSet {
     companion object {
+        const val NONE = 0f
         const val EXTRA_SMALL = 4f
         const val SMALL = 8f
         const val MEDIUM = 16f
