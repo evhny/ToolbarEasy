@@ -34,22 +34,20 @@ class CalculateComponents(private val container: ConstraintLayout) {
         var freeSpaceParties =
             if (centerComponent.isEmpty()) displayWidth else (displayWidth - centerWidth.first) / 2
 
-        val space = freeSpaceParties
         val newLeftComponent = recreateComponent(leftComponent, freeSpaceParties)
 
-        val postLeftResultCanCollapsed = calculateWidth(newLeftComponent, space)
-        isNeedConnectLeftToCenter = postLeftResultCanCollapsed.first > space
+        val leftResult = calculateWidth(newLeftComponent, freeSpaceParties)
+        isNeedConnectLeftToCenter = leftResult.first > freeSpaceParties
 
-        freeSpaceParties = if (centerComponent.isEmpty() && postLeftResultCanCollapsed.first > 0) {
-            displayWidth - (postLeftResultCanCollapsed.first)
-        } else space
+        freeSpaceParties = if (centerComponent.isEmpty() && leftResult.first > 0) {
+            displayWidth - (leftResult.first)
+        } else freeSpaceParties
 
         val newRightComponent= recreateComponent(rightComponent, freeSpaceParties)
 
-        val postRightResultCanCollapsed = calculateWidth(newRightComponent, freeSpaceParties)
+        val rightResult = calculateWidth(newRightComponent, freeSpaceParties)
 
-        isNeedConnectRightToCenter =
-            postRightResultCanCollapsed.first > freeSpaceParties
+        isNeedConnectRightToCenter = rightResult.first > freeSpaceParties
 
         return Triple(newLeftComponent, centerComponent, newRightComponent.reversed())
     }
