@@ -10,6 +10,7 @@ import com.example.toolbarlib.custom.component.Component
 import com.example.toolbarlib.custom.component.MenuComponent
 import com.example.toolbarlib.custom.component.TextComponent
 import com.example.toolbarlib.custom.component.menu.RemasteredMenuComponent
+import com.example.toolbarlib.custom.property.GravityPosition
 import com.example.toolbarlib.custom.property.extensions.convertToPix
 
 class CalculateComponents(private val container: ConstraintLayout) {
@@ -20,10 +21,20 @@ class CalculateComponents(private val container: ConstraintLayout) {
     var isNeedConnectRightToCenter = false
 
     fun calculateComponent(
-        leftComponent: List<Component>,
-        centerComponent: List<Component>,
-        rightComponent: List<Component>
+        components: List<Component>
     ): Triple<List<Component>, List<Component>, List<Component>> {
+
+        var leftComponent = mutableListOf<Component>()
+        val centerComponent = mutableListOf<Component>()
+        var rightComponent = mutableListOf<Component>()
+        components.forEach {
+            when (it.gravity) {
+                GravityPosition.CENTER -> centerComponent.add(it)
+                GravityPosition.LEFT -> leftComponent.add(it)
+                GravityPosition.RIGHT -> rightComponent.add(it)
+            }
+        }
+
         val metrics = DisplayMetrics()
 
         (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager)
@@ -35,16 +46,15 @@ class CalculateComponents(private val container: ConstraintLayout) {
             if (centerComponent.isEmpty()) displayWidth else (displayWidth - centerWidth.first) / 2
 
         val newLeftComponent = recreateComponent(leftComponent, freeSpaceParties)
-
         val leftResult = calculateWidth(newLeftComponent, freeSpaceParties)
+
         isNeedConnectLeftToCenter = leftResult.second.sum() > freeSpaceParties
 
         freeSpaceParties = if (centerComponent.isEmpty() && leftResult.first > 0) {
-            displayWidth - (leftResult.first)
+            displayWidth - leftResult.first
         } else freeSpaceParties
 
         val newRightComponent= recreateComponent(rightComponent, freeSpaceParties)
-
         val rightResult = calculateWidth(newRightComponent, freeSpaceParties)
 
         isNeedConnectRightToCenter = rightResult.second.sum() > freeSpaceParties
