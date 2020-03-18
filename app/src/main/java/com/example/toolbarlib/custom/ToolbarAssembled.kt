@@ -10,9 +10,7 @@ import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
-import androidx.core.view.get
 import androidx.core.view.isEmpty
-import androidx.core.view.size
 import com.example.toolbarlib.R
 import com.example.toolbarlib.custom.component.BackComponent
 import com.example.toolbarlib.custom.component.Component
@@ -22,6 +20,7 @@ import com.example.toolbarlib.custom.property.GravityPosition
 import com.example.toolbarlib.custom.property.Margin
 import com.example.toolbarlib.custom.property.consts.MarginSet
 import com.example.toolbarlib.custom.property.extensions.convertToPix
+import com.example.toolbarlib.custom.util.CollectorComponents
 
 class ToolbarAssembled @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -33,6 +32,7 @@ class ToolbarAssembled @JvmOverloads constructor(
     private var isNeedConnectRightToCenter = false
 
     private var backComponent: BackComponent? = null
+    private val mComponentCollector = CollectorComponents(container)
 
     init {
         super.addView(
@@ -49,7 +49,7 @@ class ToolbarAssembled @JvmOverloads constructor(
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         if (measuredHeight > 0 && container.isEmpty()) {
-            creator?.let { collectComponent(it) }
+            creator?.let { mComponentCollector.collectComponent(it) }
         }
     }
 

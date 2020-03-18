@@ -75,5 +75,9 @@ class RemasteredMenuComponent(
         fun add(creator: Creator) {
             components.addAll(creator.components)
         }
+
+        fun addAll(components: List<Component>) {
+            this.components.addAll(components)
+        }
     }
 }
