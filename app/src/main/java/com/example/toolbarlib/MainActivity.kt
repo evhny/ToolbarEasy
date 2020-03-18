@@ -62,33 +62,15 @@ class MainActivity : AppCompatActivity() {
             )
             addComponent(
                 TextComponent("asdasdasd"),
-                GravityPosition.RIGHT
-            )
-            addComponent(
-                BadgeComponent(
-                    component = ImageComponent(R.mipmap.ic_launcher),
-                    onClick = {},
-                    position = BadgeComponent.Position.BOTTOM_LEFT,
-                    badgeSize = 10f,
-                    count = 87,
-                    badgeColor = Color.RED,
-                    badgeTextColor = Color.WHITE,
-                    badgeTextSize = 7f,
-                    width = 24f,
-                    height = 24f
-                )
-                , Margin().apply {
-                    marginBottom = MarginSet.BIG
-
-                }, GravityPosition.LEFT
+                GravityPosition.CENTER
             )
             addComponent(
                 TextComponent("asdasdasd")
             )
-            addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp), Margin()
-                .apply {
-                    marginTop = MarginSet.SMALL
-                })
+            addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp), Margin().apply {
+                marginBottom = MarginSet.BIG
+                marginTop = MarginSet.BIG
+            })
             addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp))
             addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp))
             addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp))
