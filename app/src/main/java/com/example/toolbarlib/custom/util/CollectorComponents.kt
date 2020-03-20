@@ -78,24 +78,24 @@ class CollectorComponents(private val container: ConstraintLayout) {
             ConstraintSet.TOP,
             ConstraintSet.PARENT_ID,
             ConstraintSet.TOP,
-            component.convertToPix(component.margin.marginTop, context)
+            component.margin.marginTop.convertToPix(context)
         )
         set.connect(
             viewId,
             ConstraintSet.BOTTOM,
             ConstraintSet.PARENT_ID,
             ConstraintSet.BOTTOM,
-            component.convertToPix(component.margin.marginBottom, context)
+            component.margin.marginBottom.convertToPix(context)
         )
         set.setMargin(
             viewId,
             ConstraintSet.START,
-            component.convertToPix(component.margin.marginStart, context)
+            component.margin.marginStart.convertToPix(context)
         )
         set.setMargin(
             viewId,
             ConstraintSet.END,
-            component.convertToPix(component.margin.marginEnd, context)
+            component.margin.marginEnd.convertToPix(context)
         )
         return set
     }

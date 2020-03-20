@@ -91,10 +91,9 @@ class CalculateComponents(private val container: ConstraintLayout) {
                 View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
                 View.MeasureSpec.makeMeasureSpec(container.measuredHeight, View.MeasureSpec.EXACTLY)
             )
-            val measuredWidth = view.measuredWidth + it.convertToPix(
-                it.margin.marginEnd,
-                context
-            ) + it.convertToPix(it.margin.marginStart, context)
+            val measuredWidth = view.measuredWidth +
+                    it.margin.marginEnd.convertToPix(context) +
+                    it.margin.marginStart.convertToPix(context)
             sumWith += measuredWidth
             if (freeSpaceParties > sumWith)
                 array = array.plusElement(measuredWidth)
