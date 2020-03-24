@@ -66,6 +66,10 @@ class ToolbarAssembled @JvmOverloads constructor(
 
     fun setHomeButtonEnabled(isEnabled: Boolean) {
         backComponent?.setHomeButtonEnabled(isEnabled)
+        if (measuredHeight > 0) {
+            container.removeAllViews()
+            creator?.let { mComponentCollector.collectComponent(it) }
+        }
     }
 
     fun isHomeButtonEnabled() = backComponent?.isEnabled

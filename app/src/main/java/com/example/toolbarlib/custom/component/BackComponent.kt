@@ -7,6 +7,12 @@ import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatImageView
 import com.example.toolbarlib.R
 
+/**
+ * BackComponent This component is always in the toolbar and is intended to replace the home element in the standard toolbar.
+ * @param iconRes - icon resource link
+ * @param isEnabled - Set to true to include in the display, false by default
+ * @param onClick - block for event click
+ */
 class BackComponent(
     @DrawableRes private var iconRes: Int = R.drawable.ic_arrow_back_black_24dp,
     var isEnabled: Boolean = false,

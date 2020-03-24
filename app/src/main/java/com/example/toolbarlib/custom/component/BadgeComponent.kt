@@ -13,7 +13,20 @@ import com.example.toolbarlib.custom.property.extensions.convertSpToPix
 import com.example.toolbarlib.custom.property.extensions.convertToPix
 import com.example.toolbarlib.custom.util.CountDrawable
 
-
+/**
+ * BadgeComponent displays on top of the specified component counter
+ * @param component - base component
+ * @param badgeTextSize - size text badge
+ * @param badgeTextColor - color text badge
+ * @param badgeTextTypeface - font text badge
+ * @param badgeSize - size badge
+ * @param badgeColor - color background badge
+ * @param count - The number needed to display
+ * @param position - position badge
+ * @param width - width component
+ * @param height - height component
+ * @param onClick - block for event click
+ */
 class BadgeComponent(
     private val component: Component,
     private val badgeTextSize: Float = 10f,

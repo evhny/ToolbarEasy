@@ -49,37 +49,37 @@ class MainActivity : AppCompatActivity() {
 
         toolbar.createToolbar {
             addComponent(
-                ImageComponent(R.drawable.ic_account_circle_black_24dp),
+                ImageComponent(R.mipmap.ic_launcher),
                 GravityPosition.RIGHT
             )
             addComponent(
                 ImageComponent(R.drawable.ic_account_circle_black_24dp),
                 GravityPosition.RIGHT
             )
-            addComponent(
-                ImageComponent(R.drawable.ic_account_circle_black_24dp),
-                GravityPosition.RIGHT
-            )
-            addComponent(
-                TextComponent("asdasdasd"),
-                GravityPosition.CENTER
-            )
-            addComponent(
-                TextComponent("asdasdasd")
-            )
-            addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp), Margin().apply {
-                marginBottom = MarginSet.BIG
-                marginTop = MarginSet.BIG
-            })
-            addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp))
-            addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp))
-            addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp))
-        }
 
-        toolbar.setHomeButtonEnabled(true)
-        toolbar.setOnHomeButtonClick {
-            Snackbar.make(toolbar, "OnHomeButtonClick", Snackbar.LENGTH_LONG).show()
+            addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp))
+            addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp))
+            addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp))
+            addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp))
+            addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp))
+            addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp))
+            addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp))
+            addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp))
+            addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp))
+            addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp))
+            addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp))
+            addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp))
+            addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp))
+            addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp))
+            addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp))
+            addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp))
+            addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp))
+            addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp))
+            addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp))
+            addComponent(ImageComponent(R.drawable.ic_account_circle_black_24dp))
+            addComponent(ImageComponent(R.mipmap.ic_launcher))
         }
+        toolbar.setHomeButtonEnabled(true)
 
     }
 

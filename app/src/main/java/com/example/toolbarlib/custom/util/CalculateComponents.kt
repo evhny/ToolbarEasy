@@ -45,7 +45,10 @@ class CalculateComponents(private val container: ConstraintLayout) {
         var freeSpaceParties =
             if (centerComponent.isEmpty()) displayWidth else (displayWidth - centerWidth.first) / 2
 
-        val newLeftComponent = recreateComponent(leftComponent, freeSpaceParties)
+        val newLeftComponent = recreateComponent(
+            leftComponent,
+            if (rightComponent.isEmpty()) freeSpaceParties else freeSpaceParties - 50
+        )
         val leftResult = calculateWidth(newLeftComponent, freeSpaceParties)
 
         isNeedConnectLeftToCenter = leftResult.second.sum() > freeSpaceParties
@@ -108,8 +111,9 @@ class CalculateComponents(private val container: ConstraintLayout) {
         freeSpaceParties: Int
     ): List<Component> {
         val newComponent = mutableListOf<Component>()
-        if (result.first > freeSpaceParties && components.isNotEmpty() && result.second.isNotEmpty()) {
-            newComponent.addAll(components.subList(0, result.second.size))
+        if (result.first > freeSpaceParties && components.isNotEmpty()) {
+            if (result.second.isNotEmpty())
+                newComponent.addAll(components.subList(0, result.second.size))
             newComponent.add(
                 collapsedComponentToMenu(
                     components.subList(
