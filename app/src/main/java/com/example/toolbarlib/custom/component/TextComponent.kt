@@ -1,7 +1,6 @@
 package com.example.toolbarlib.custom.component
 
 import android.content.Context
-import android.graphics.Color
 import android.os.Build
 import android.text.TextUtils
 import android.view.Gravity
@@ -11,10 +10,21 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import androidx.annotation.FontRes
 import androidx.annotation.StyleRes
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.example.toolbarlib.R
+
+/**
+ * TextComponent designed to display elements of type title or clickable text in the toolbar
+ * @param text - required field containing content to display
+ * @param style - Component style parameter, default contains R.style.TextComponent
+ * @param textColor - Text color parameter, by default is taken from the style R.style.TextComponent
+ * @param textSize - Text size parameter, by default is taken from the style R.style.TextComponent
+ * @param textFontRes - Text font parameter, by default is taken from the style R.style.TextComponent
+ * @param isSingleLine - To limit the text, set true, false by default
+ * @param maxLines - limit on the number of lines possible to display
+ * @param onTextClick - block for event click
+ */
 
 class TextComponent(
     val text: String,

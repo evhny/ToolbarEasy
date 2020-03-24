@@ -17,7 +17,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.toolbarlib.R
 import com.example.toolbarlib.custom.component.Component
 import kotlinx.android.synthetic.main.list.view.*
-
+/**
+ * RemasteredMenuComponent create popup menu that will show after click on menu icon
+ * @param creatorBlock higher order function to add components to the menu
+ * @param iconRes drawable id icon. When click on it, menu will open as popup
+ * @param onMenuClick Listener when menu item click
+ */
 class RemasteredMenuComponent(
     @DrawableRes private val iconRes: Int,
     private val creatorBlock: Creator.() -> Unit,

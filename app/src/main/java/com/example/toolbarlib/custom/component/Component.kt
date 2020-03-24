@@ -4,11 +4,16 @@ import android.content.Context
 import android.view.View
 import com.example.toolbarlib.custom.property.GravityPosition
 import com.example.toolbarlib.custom.property.Margin
-
+/**
+ * Component base class
+ */
 abstract class Component {
 
     var callback: (() -> Unit)? = null
 
+    /**
+     * pointer to display position
+     */
     var gravity: GravityPosition = GravityPosition.LEFT
 
     var margin: Margin = Margin()
