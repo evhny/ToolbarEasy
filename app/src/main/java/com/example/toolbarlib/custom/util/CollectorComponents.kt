@@ -8,6 +8,9 @@ import com.example.toolbarlib.custom.component.Component
 import com.example.toolbarlib.custom.property.GravityPosition
 import com.example.toolbarlib.custom.property.extensions.convertToPix
 
+/**
+ * The class responsible for binding components in the container
+ */
 class CollectorComponents(private val container: ConstraintLayout) {
 
     private val context: Context = container.context
