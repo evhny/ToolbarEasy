@@ -23,8 +23,6 @@ class MainActivity : AppCompatActivity() {
     private fun initToolbar() {
 
 
-
-        
         toolbar.createToolbar {
             addComponent(
                 ImageComponent(com.example.toolbarlib.R.mipmap.ic_launcher),

@@ -107,7 +107,6 @@ class ToolbarAssembled @JvmOverloads constructor(
             this.addComponent(component)
         }
 
-
         fun getComponents() = components.toList()
     }
 }
