@@ -128,7 +128,6 @@ class CalculateComponents(private val container: ConstraintLayout) {
         return newComponent
     }
 
-
     private fun collapsedComponentToMenu(components: List<Component>): RemasteredMenuComponent {
         var array = arrayOf<String>()
         components.forEach {

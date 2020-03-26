@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initToolbar() {
 
+
         toolbar.createToolbar {
             addComponent(
                 ImageComponent(com.example.toolbarlib.R.mipmap.ic_launcher),
@@ -40,6 +41,7 @@ class MainActivity : AppCompatActivity() {
             addComponent(ImageComponent(com.example.toolbarlib.R.drawable.ic_account_circle_black_24dp))
             addComponent(ImageComponent(com.example.toolbarlib.R.drawable.ic_account_circle_black_24dp))
             addComponent(ImageComponent(com.example.toolbarlib.R.drawable.ic_account_circle_black_24dp))
+
             addComponent(ImageComponent(com.example.toolbarlib.R.drawable.ic_account_circle_black_24dp))
             addComponent(ImageComponent(com.example.toolbarlib.R.drawable.ic_account_circle_black_24dp))
             addComponent(ImageComponent(com.example.toolbarlib.R.drawable.ic_account_circle_black_24dp))

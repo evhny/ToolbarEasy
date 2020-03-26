@@ -1,8 +1,5 @@
 package com.example.toolbarlib.custom.property
 
-import android.content.Context
-import android.content.res.Resources
-import android.util.TypedValue
 import com.example.toolbarlib.custom.property.consts.MarginSet
 
 /**
@@ -11,28 +8,10 @@ import com.example.toolbarlib.custom.property.consts.MarginSet
  */
 class Margin() {
     var marginTop: Float = MarginSet.EXTRA_SMALL
-       /* set(value) {
-            field = convertToPix(value)
-        }*/
-    var marginEnd: Float = MarginSet.EXTRA_SMALL
-        /*set(value) {
-            field = convertToPix(value)
-        }*/
-    var marginBottom: Float = MarginSet.EXTRA_SMALL
-       /* set(value) {
-            field = convertToPix(value)
-        }*/
-    var marginStart: Float = MarginSet.EXTRA_SMALL
-        /*set(value) {
-            field = convertToPix(value)
-        }*/
 
-//    private fun convertToPix(dip: Float): Float {
-//        val r: Resources = context.resources
-//        return TypedValue.applyDimension(
-//            TypedValue.COMPLEX_UNIT_DIP,
-//            dip,
-//            r.displayMetrics
-//        )
-//    }
+    var marginEnd: Float = MarginSet.EXTRA_SMALL
+
+    var marginBottom: Float = MarginSet.EXTRA_SMALL
+
+    var marginStart: Float = MarginSet.EXTRA_SMALL
 }
