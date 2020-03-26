@@ -13,6 +13,9 @@ import com.example.toolbarlib.custom.component.menu.RemasteredMenuComponent
 import com.example.toolbarlib.custom.property.GravityPosition
 import com.example.toolbarlib.custom.property.extensions.convertToPix
 
+/**
+ * The class responsible for the distribution of space between objects
+ */
 class CalculateComponents(private val container: ConstraintLayout) {
 
     private val context: Context = container.context
@@ -82,6 +85,15 @@ class CalculateComponents(private val container: ConstraintLayout) {
         return listCantCollapsed
     }
 
+    /**
+     * Function for calculating the occupied width of a set of components
+     * @param components - Array of components of a specific side
+     * @param freeSpaceParties - Free space for component array distribution
+     * @return Pair<Int, Array<Int>> -
+     *         first (Int) - sum all width components,
+     *         second (Array<Int>) - An array with the width of the components that fit in free space, the index in the array corresponds to the index in the component array
+     */
+
     private fun calculateWidth(
         components: List<Component>,
         freeSpaceParties: Int
@@ -105,6 +117,14 @@ class CalculateComponents(private val container: ConstraintLayout) {
         return Pair(sumWith, array)
     }
 
+    /**
+     *  Function that determines the need to minimize the menu when there is not enough space
+     *  @param components - Array of components of a specific side
+     *  @param result - calculation result by calculateWidth function
+     *  @param freeSpaceParties - Free space for component array distribution
+     *
+     *  @return Preset list of components
+     */
     private fun collapsed(
         components: List<Component>,
         result: Pair<Int, Array<Int>>,
@@ -128,6 +148,9 @@ class CalculateComponents(private val container: ConstraintLayout) {
         return newComponent
     }
 
+    /**
+     * combining components in a menu
+     */
     private fun collapsedComponentToMenu(components: List<Component>): RemasteredMenuComponent {
         var array = arrayOf<String>()
         components.forEach {
